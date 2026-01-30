@@ -218,7 +218,7 @@
 !NCF        ! reserve free unit number
 !NCF        IOSTAT = -1
 !NCF        INQUIRE(FILE=FILENM, EXIST=EXIST)                                 41.43
-!NCF        CALL FOR (NREF, FILENM, 'UU', IOSTAT)
+!NCF        CALL FOR (NREF, TRIM(FILENM)//'.dum', 'UF', IOSTAT)               43.02
 !NCF        IF (STPNOW()) RETURN
 !NCF        IF (.NOT.EXIST) CLOSE(NREF, STATUS='DELETE')                      41.43
 !NCF        OQI(1) = NREF
@@ -1386,7 +1386,11 @@
           FILENM = OUTP_FILES(OQI(2))                                     40.31 40.13
           IOSTAT = -1                                                     20.75
 !NCF          INQUIRE(FILE=FILENM, EXIST=EXIST)
+!NCF          IF ( RTYPE.EQ.'TABC' ) THEN                                     43.02
+!NCF             CALL FOR (NREF, TRIM(FILENM)//'.dum', 'UF', IOSTAT)          43.02
+!NCF          ELSE                                                            43.02
           CALL FOR (NREF, FILENM, 'UF', IOSTAT)
+!NCF          ENDIF                                                           43.02
           IF (STPNOW()) RETURN                                            34.01
           OQI(1) = NREF                                                   40.31 30.00
           OUTP_FILES(OQI(2)) = FILENM                                     40.41
