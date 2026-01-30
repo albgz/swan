@@ -1,15 +1,16 @@
 # a CMake script to build SWAN
 #
-# Copyright (C) 2024  Delft University of Technology
+# Copyright (C) 2026  Delft University of Technology
 
-# use of CMake version 3.12 or greater
-cmake_minimum_required( VERSION 3.12 )
+# use of CMake version 3.20 or greater
+cmake_minimum_required( VERSION 3.20 )
 
-# by default, the SWAN package will be installed in a default location
+# by default, the SWAN package will be installed in user's local or home folder
 if( WIN32 )
-  set( CMAKE_INSTALL_PREFIX "C:/Program Files/swan" CACHE STRING "" )
+  cmake_path( SET LOCALSWAN $ENV{LOCALAPPDATA}/Programs/wavemodels/swan )
+  set( CMAKE_INSTALL_PREFIX "${LOCALSWAN}" CACHE STRING "" )
 else()
-  set( CMAKE_INSTALL_PREFIX "/usr/local/swan" CACHE STRING "" )
+  set( CMAKE_INSTALL_PREFIX "$ENV{HOME}/wavemodels/swan" CACHE STRING "" )
 endif()
 
 # Fortran project for SWAN

@@ -461,6 +461,7 @@
         IF (ALOCMP.AND.ALLOCATED(COMPDA)) DEALLOCATE(COMPDA)              40.97
         IF (.NOT.ALLOCATED(COMPDA)) THEN                                  40.97
            ALLOCATE(COMPDA(MCGRD,MCMVAR),STAT=ISTAT)                      40.97 40.41 40.31
+           COMPDA = 0.                                                    43.02
            ALOCMP = .FALSE.                                               40.97
         END IF                                                            40.97
         IF ( ISTAT.NE.0 ) THEN                                            40.41

@@ -17,7 +17,7 @@ It is permitted to copy, reuse, adapt and distribute the SWAN source code provid
 #### prerequisites
 
 To install SWAN on your local system, CMake and Ninja (or GNU make) need to be installed first.
-We recommend to use [CMake 3.12+](https://cmake.org/) for building SWAN.
+We recommend to use [CMake 3.20+](https://cmake.org/) for building SWAN (check the version by typing `cmake --version`).
 CMake is a build system and makes use of scripts (or configuration files) that control the build process.
 There are installers available for Windows, Linux and macOS. See the
 [download](https://cmake.org/download/) page for CMake installation instructions.
@@ -51,7 +51,7 @@ Currently, the build scripts support the following Fortran compilers:
 ##### 1. clone the repo and navigate to the top level source directory
 
 ```bash
-$ git clone https://gitlab.tudelft.nl/citg/wavemodels/swan.git && cd swan
+git clone https://gitlab.tudelft.nl/citg/wavemodels/swan.git && cd swan
 ```
 
 ##### 2. create the build directory
@@ -59,7 +59,7 @@ $ git clone https://gitlab.tudelft.nl/citg/wavemodels/swan.git && cd swan
 At the top of SWAN source directory execute the following commands
 
 ```bash
-$ mkdir build && cd build
+mkdir build && cd build
 ```
 
 This step is required to perform an out-of-source build with CMake, that is, build files will not be created in the `/swan/src` directory.
@@ -71,8 +71,8 @@ Two CMake configuration files are provided as required for the build. They are p
 The following two CMake commands should suffice to build SWAN
 
 ```bash
-$ cmake .. -G Ninja
-$ cmake --build .
+cmake .. -G Ninja
+cmake --build .
 ```
 
 The first command refers to the source directory where the main configuration file is invoked. The second command carries out the building in the build directory.
@@ -80,15 +80,15 @@ The first command refers to the source directory where the main configuration fi
 The package is actually built by invoking Ninja. An alternative would be to use GNU make, as follows
 
 ```bash
-$ cmake .. -G "Unix Makefiles"
-$ make
+cmake .. -G "Unix Makefiles"
+make
 ```
 
 or just (in case your OS is Unix-like)
 
 ```bash
-$ cmake ..
-$ make
+cmake ..
+make
 ```
 
 However, we recommend Ninja because it is faster than GNU make.
@@ -98,27 +98,27 @@ However, we recommend Ninja because it is faster than GNU make.
 To install SWAN, run either
 
 ```bash
-$ cmake --install .
+cmake --install .
 ```
 
 or with the GNU make
 
 ```bash
-$ make install
+make install
 ```
 
-The default install directory is `/usr/local/swan` (Unix-like operating systems, including macOS) or `C:\Program Files\swan` (Windows).
-Instead, you may install SWAN in any other user-defined directory, as follows
+The default install directory is `$HOME/wavemodels/swan` (Unix-like operating systems, including macOS) or `%LocalAppData%\Programs\wavemodels\swan` (Windows).
+(These directories allow app installation without requiring administrator rights.) Instead, you may install SWAN in any other user-defined directory, as follows
 
 ```bash
-$ cmake --install . --prefix /somewhere/else/other/than/default/directory
+cmake --install . --prefix /somewhere/else/other/than/default/directory
 ```
 
 or
 
 ```bash
-$ cmake .. -DCMAKE_INSTALL_PREFIX=/somewhere/else/other/than/default/directory
-$ make install
+cmake .. -DCMAKE_INSTALL_PREFIX=/somewhere/else/other/than/default/directory
+make install
 ```
 
 After installation a number of subdirectories are created.
@@ -133,14 +133,14 @@ Please note that the installation can be skipped (though not recommended). Execu
 The build can be (re)configured by passing one or more options to the CMake command with prefix `-D`. A typical command line looks like
 
 ```bash
-$ cmake .. -D<option>=<value>
+cmake .. -D<option>=<value>
 ```
 
 where `<value>` is a string or a boolean, depending on the specified option. The table below provides an overview of the non-required options that can be used.
 
 |  option                  | value type |               description                 | default value           |
 |:------------------------:|:-----------|:------------------------------------------|:-----------------------:|
-| `CMAKE_INSTALL_PREFIX`   | string     | user-defined installation path            | `/usr/local/swan`       |
+| `CMAKE_INSTALL_PREFIX`   | string     | user-defined installation path            | `../wavemodels/swan`    |
 | `CMAKE_PREFIX_PATH`      | string     | semicolon-separated list of library paths | empty                   |
 | `CMAKE_Fortran_COMPILER` | string     | full path to the Fortran compiler         | determined by CMake     |
 | `MPI`                    | boolean    | enable build with MPI                     | `OFF`                   |
@@ -152,8 +152,8 @@ where `<value>` is a string or a boolean, depending on the specified option. The
 For example, the following commands
 
 ```bash
-$ cmake .. -GNinja -DNETCDF=ON -DMPI=ON
-$ cmake --build .
+cmake .. -GNinja -DNETCDF=ON -DMPI=ON
+cmake --build .
 ```
 
 will configure SWAN to be built created by Ninja that supports netCDF output and parallel computing using the MPI paradigm.
@@ -161,25 +161,25 @@ Note that CMake will check the availability of MPI and netCDF libraries within y
 Also note that netCDF libraries might be installed in a custom directory (e.g., `/home/your/name/netcdf`), which must then be a priori specified on the command line as follows:
 
 ```bash
-$ export NetCDF_ROOT=/path/to/netcdf/root/directory
+export NetCDF_ROOT=/path/to/netcdf/root/directory
 ```
 
 or
 
 ```bash
-$ cmake .. [options] -DCMAKE_PREFIX_PATH=/path/to/netcdf/directory
+cmake .. [options] -DCMAKE_PREFIX_PATH=/path/to/netcdf/directory
 ```
 
 so that CMake can find them. The same holds for Metis libraries, as follows:
 
 ```bash
-$ export Metis_ROOT=/path/to/metis/root/directory
+export Metis_ROOT=/path/to/metis/root/directory
 ```
 
 or
 
 ```bash
-$ cmake .. [options] -DCMAKE_PREFIX_PATH=/path/to/metis/directory
+cmake .. [options] -DCMAKE_PREFIX_PATH=/path/to/metis/directory
 ```
 
 Note: to define a path list with more than one prefixes use a semicolon as a separator.
@@ -187,13 +187,13 @@ Note: to define a path list with more than one prefixes use a semicolon as a sep
 The system default Fortran compiler (e.g., f77, g95) can be overwritten as follows
 
 ```bash
-$ cmake .. [options] -DCMAKE_Fortran_COMPILER=/path/to/the/desired/compiler/including/the/name/of/compiler
+cmake .. [options] -DCMAKE_Fortran_COMPILER=/path/to/the/desired/compiler/including/the/name/of/compiler
 ```
 
 Finally, if CMake fails to configure your project, then execute
 
 ```bash
-$ cmake .. [options] -DCMAKE_VERBOSE_MAKEFILE=ON
+cmake .. [options] -DCMAKE_VERBOSE_MAKEFILE=ON
 ```
 
 which will generate detailed information that may provide some indications to debug the build process.
@@ -203,7 +203,7 @@ which will generate detailed information that may provide some indications to de
 To remove the build directory and all files that have been created after running `cmake --build .`, run at the top level of your project the following command:
 
 ```bash
-$ cmake -P clobber.cmake
+cmake -P clobber.cmake
 ```
 
 (The `-P` argument passed to CMake will execute a script *\<filename\>.cmake*.)
@@ -232,7 +232,7 @@ The general run procedure is as follows:
 1. complete or modify your command file `INPUT`
 1. run the SWAN model:
    ```bash
-   $ ./swan.exe
+   ./swan.exe
    ```
 1. check the created `PRINT` file for warning and error messages
 1. repeat if needed
@@ -240,7 +240,7 @@ The general run procedure is as follows:
 For faster simulation on a cluster, replace the run command by
 
 ```bash
-$ mpirun -np <n> swan.exe
+mpirun -np <n> swan.exe
 ```
 
 with `<n>` the number of desired nodes.
@@ -263,4 +263,4 @@ See
 For bug reports please send to the [SourceForge mailing list](http://sourceforge.net/mail/?group_id=384349).
 
 
-<small>&copy; Copyright 2025  Marcel Zijlema</small>
+<small>&copy; Copyright 2026  Marcel Zijlema</small>
