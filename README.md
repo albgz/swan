@@ -1,5 +1,12 @@
 # Welcome to the SWAN git repository
 
+[![version](https://img.shields.io/badge/version%20-%2041.51%20-%20brightgreen?color=brightgreen)]()
+[![site](https://img.shields.io/badge/sourceforge%20-%20site%20-%20blue?logo=sourceforge&color=blue)](https://swanmodel.sourceforge.io)
+[![doi](https://img.shields.io/badge/DOI%20-%2010.1029%2F98JC02622%20-%20red?color=blue)](https://doi.org/10.1029/98JC02622)
+[![license](https://img.shields.io/badge/license%20-%20GPL_v3%20-%20yellow?color=yellow)](/LICENSE)
+
+## introduction
+
 SWAN is a third-generation wave model that computes random, short-crested wind-generated waves in coastal regions and inland waters.
 For more in-depth background and scientific documentation, the reader is referred to the [SWAN website](https://swanmodel.sourceforge.io).
 Please also check the [release notes](https://swanmodel.sourceforge.io/modifications/modifications.htm) for any additional information on the current version **41.51**.
