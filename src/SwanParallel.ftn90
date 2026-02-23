@@ -802,7 +802,7 @@ subroutine SwanCommAdmin
     nverts = nvertp(INODE)
     !
     allocate(ivertg(nverts))
-    ivertg(:) = vlistlg(:,INODE)
+    ivertg(1:nverts) = vlistlg(1:nverts,INODE)
     !
     ! create identification list for vertices (resident/ghost)
     !
@@ -1608,7 +1608,7 @@ subroutine SwanCollBpntlist
        !
        ! determine angle of each boundary point with respect to centroid
        !
-       ang(:) = atan2( dyc(:), dxc(:) )
+       ang(1:nbp) = atan2( dyc(1:nbp), dxc(1:nbp) )
        !
        ! sort angles counterclockwise
        !
