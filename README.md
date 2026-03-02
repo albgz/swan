@@ -3,8 +3,23 @@
 [![release](https://img.shields.io/badge/release%20-%20v41.51%20-%20brightgreen?color=success)]()
 [![site](https://img.shields.io/badge/sourceforge%20-%20site%20-%20blue?logo=sourceforge&color=informational)](https://swanmodel.sourceforge.io)
 [![image](https://img.shields.io/badge/delftwaves%2Fswan%20-%20image%20-%20blue?logo=docker&color=informational)](https://hub.docker.com/r/delftwaves/swan)
+[![docs](https://img.shields.io/badge/docs%20-%20GitHub%20pages%20-%20blue?logo=github&color=informational)](https://delftwaves.github.io/swan-docs/)
 [![doi](https://img.shields.io/badge/DOI%20-%2010.1029%2F98JC02622%20-%20blue?color=informational)](https://doi.org/10.1029/98JC02622)
 [![license](https://img.shields.io/badge/license%20-%20GPL_v3%20-%20orange?color=important)](/LICENSE)
+
+### table of contents
+
+- [introduction](#introduction)
+- [installation](#installation)
+  - [prerequisites](#prerequisites)
+  - [instructions](#instructions)
+  - [configuring the build](#configuring-the-build)
+  - [clean up the build files](#clean-up-the-build-files)
+- [getting started](#getting-started)
+  - [run modes](#run-modes)
+  - [how to run](#how-to-run)
+- [documentation](#documentation)
+- [bugs and questions](#bugs-and-questions)
 
 ## introduction
 
@@ -258,13 +273,12 @@ environment variable `PATH` has been adapted by including the path of the `/bin`
 
 For more details, consult the [Implementation manual](https://swanmodel.sourceforge.io/online_doc/swanimp/node12.html).
 
-## documents
+## documentation
 
 See
-1. the [Implementation Manual](https://swanmodel.sourceforge.io/online_doc/swanimp/swanimp.html) that describes in detail the installation and the usage of the SWAN model
-1. the [User Manual](https://swanmodel.sourceforge.io/online_doc/swanuse/swanuse.html) that provides the specifications for the input of the SWAN model
+1. the [SWAN website](https://swanmodel.sourceforge.io/) for general information
+1. the [SWAN documentation](https://delftwaves.github.io/swan-docs/) that provides the user manual, scientific/technical documentation and many more
 1. the [SWAN settings](https://swanmodel.sourceforge.io/settings/settings.htm) page for an overview of the source term packages
-1. the [Scientific/technical documentation](https://swanmodel.sourceforge.io/online_doc/swantech/swantech.html) that discusses the physical and mathematical details and the discretizations that have been implemented in the SWAN software
 
 ## bugs and questions
 
