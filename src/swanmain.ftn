@@ -964,7 +964,7 @@
       VERTXT = BLANK                                                      40.03
       VERNUM = 41.51
       WRITE (VERTXT, '(F5.2)') VERNUM                                     40.03
-!      CALL BUGFIX ('A')
+      CALL BUGFIX ('A')
 !      CALL BUGFIX ('B')
 !
       CALL OCPINI ('swaninit', .TRUE.,INERR)                              34.01
