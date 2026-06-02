@@ -282,7 +282,7 @@ subroutine SwanConvStopc ( accur, hscurr, hsprev, hsdifc, tmcurr, tmprev, tmdifc
     !
     !$omp barrier
     !$omp single
-    if ( npacc > 0. ) accur = ceiling(npacc*10000./nwetp)/100.
+    if ( nwetp > 0. ) accur = ceiling(npacc*10000./nwetp)/100.
     !$omp end single
     !
  11 format(13x,'dHabs          ','dHrel          ','Curvature H    ','dTabs          ','dTrel          ','Curvature T    ')
