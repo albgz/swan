@@ -16,8 +16,8 @@
 find_path( Metis_INCLUDE_DIR
            NAMES metis.h
            PATHS ENV Metis_ROOT Metis_PATH METIS_ROOT METIS_PATH
-           HINTS $ENV{HOME}/local $ENV{HOME}/metis /usr /usr/local /opt/local /opt/metis ./METIS
-           PATH_SUFFIXES include build
+           HINTS $ENV{HOME}/local $ENV{HOME}/metis /usr /usr/local /opt/local /opt/metis $ENV{ProgramFiles}/metis
+           PATH_SUFFIXES include
          )
 mark_as_advanced( Metis_INCLUDE_DIR )
 
@@ -25,8 +25,8 @@ mark_as_advanced( Metis_INCLUDE_DIR )
 find_library( Metis_LIBRARY
               NAMES libmetis.a libmetis.so metis.lib
               PATHS ENV Metis_ROOT Metis_PATH METIS_ROOT METIS_PATH
-              HINTS $ENV{HOME}/local $ENV{HOME}/metis /usr /usr/local /opt/local /opt/metis ./METIS
-              PATH_SUFFIXES lib lib32 lib64 build build/Debug
+              HINTS $ENV{HOME}/local $ENV{HOME}/metis /usr /usr/local /opt/local /opt/metis $ENV{ProgramFiles}/metis
+              PATH_SUFFIXES lib lib32 lib64
             )
 set( Metis_LIBRARIES ${Metis_LIBRARY} )
 
@@ -40,8 +40,8 @@ set( Metis_LIBRARIES ${Metis_LIBRARY} )
 if( WIN32 )
   find_library( GK_LIBRARY
                 NAMES GKlib.lib
-                HINTS ./METIS
-                PATH_SUFFIXES build/_deps/gklib-build build/_deps/gklib-build/Debug
+                HINTS $ENV{ProgramFiles}/metis
+                PATH_SUFFIXES lib
               )
   list( APPEND Metis_LIBRARIES ${GK_LIBRARY} )
 endif()
