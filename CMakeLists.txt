@@ -43,6 +43,7 @@ option( OPENMP "" OFF )
 option( MPI "" OFF )
 option( JAC "" OFF )
 option( METIS "" OFF )
+option( FFRO "" OFF )
 option( NETCDF "" OFF )
 
 # define bin/lib//mod/src directories

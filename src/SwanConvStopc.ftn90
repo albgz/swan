@@ -1,4 +1,4 @@
-subroutine SwanConvStopc ( accur, hscurr, hsprev, hsdifc, tmcurr, tmprev, tmdifc, delhs, deltm, xytst, spcsig, ac2, ivlow, ivup )
+subroutine SwanConvStopc ( accur, hscurr, hsprev, hsdifc, tmcurr, tmprev, tmdifc, delhs, deltm, xytst, spcsig, ac2 )
 !
 !   --|-----------------------------------------------------------|--
 !     | Delft University of Technology                            |
@@ -64,8 +64,6 @@ subroutine SwanConvStopc ( accur, hscurr, hsprev, hsdifc, tmcurr, tmprev, tmdifc
 !
 !   Argument variables
 !
-    integer, intent(in)                         :: ivlow  ! lower index in range of vertices in calling thread
-    integer, intent(in)                         :: ivup   ! upper index in range of vertices in calling thread
     integer, dimension(NPTST), intent(in)       :: xytst  ! test points for output purposes
     !
     real, intent(inout)                         :: accur  ! percentage of active vertices in which required accuracy has been reached
@@ -99,9 +97,7 @@ subroutine SwanConvStopc ( accur, hscurr, hsprev, hsdifc, tmcurr, tmprev, tmdifc
     real                                  :: m0       ! moment of zeroth order
     real                                  :: m1       ! moment of first order
     real                                  :: npacc    ! number of vertices in which required accuracy has been reached
-    real                                  :: npacct   ! npacc counter for calling thread
     real                                  :: nwetp    ! total number of active vertices
-    real                                  :: nwetpt   ! nwetp counter for calling thread
     real                                  :: tmabs    ! absolute difference in mean period between last 2 iterations
     real                                  :: tmcurv   ! curvature of iteration curve of mean period
     real                                  :: tmdif0   ! value of tmdifc at previous iteration level
@@ -130,13 +126,8 @@ subroutine SwanConvStopc ( accur, hscurr, hsprev, hsdifc, tmcurr, tmprev, tmdifc
     !
     vert => gridobject%vert_grid
     !
-    !$omp single
     npacc = 0.
     nwetp = 0.
-    !$omp end single
-    !
-    npacct = 0.
-    nwetpt = 0.
     !
     deltm = 0.
     delhs = 0.
@@ -145,7 +136,7 @@ subroutine SwanConvStopc ( accur, hscurr, hsprev, hsdifc, tmcurr, tmprev, tmdifc
     !
     ! calculate a set of accuracy parameters based on relative error and curvature for Hs and Tm
     !
-    do ivert = ivlow, ivup
+    do ivert = 1, nverts
        !
        if ( vert(ivert)%active ) then
           !
@@ -161,7 +152,7 @@ subroutine SwanConvStopc ( accur, hscurr, hsprev, hsdifc, tmcurr, tmprev, tmdifc
           !
           ! count active points
           !
-          nwetpt = nwetpt + 1.
+          nwetp = nwetp + 1.
           !
           ! store wave height and mean period of previous iteration levels
           !
@@ -188,7 +179,7 @@ subroutine SwanConvStopc ( accur, hscurr, hsprev, hsdifc, tmcurr, tmprev, tmdifc
              hscurr(ivert) = max ( 1.e-20, 4.*sqrt(m0) )
           elseif ( IQCM /= 0 .and. m0 < 0. ) then
              hscurr(ivert) = -1.
-             nwetpt = nwetpt - 1.
+             nwetp = nwetp - 1.
           else
              hscurr(ivert) = 1.e-20
           endif
@@ -249,7 +240,7 @@ subroutine SwanConvStopc ( accur, hscurr, hsprev, hsdifc, tmcurr, tmprev, tmdifc
           !
           ! count vertices where wave parameters have reached required accuracies
           !
-          if ( lconv ) npacct = npacct + 1.
+          if ( lconv ) npacc = npacc + 1.
           !
           if ( tstfl .and. IQCM==0 ) then
              if (lhead) write(PRINTF,11)
@@ -266,13 +257,6 @@ subroutine SwanConvStopc ( accur, hscurr, hsprev, hsdifc, tmcurr, tmprev, tmdifc
        !
     enddo
     !
-    ! global sum to npacc and nwetp
-    !
-    !$omp atomic
-    npacc = npacc + npacct
-    !$omp atomic
-    nwetp = nwetp + nwetpt
-    !
     ! perform global reduction in parallel run
     !
     call SWREDUCE(  nwetp, 1, SWREAL, SWSUM )
@@ -280,10 +264,7 @@ subroutine SwanConvStopc ( accur, hscurr, hsprev, hsdifc, tmcurr, tmprev, tmdifc
     !
     ! compute percentage of active vertices where required accuracy has been reached
     !
-    !$omp barrier
-    !$omp single
     if ( nwetp > 0. ) accur = ceiling(npacc*10000./nwetp)/100.
-    !$omp end single
     !
  11 format(13x,'dHabs          ','dHrel          ','Curvature H    ','dTabs          ','dTrel          ','Curvature T    ')
  12 format(1x,ss,'k=',i7,'  ',1pe13.6e2,'  ',1pe13.6e2,'  ',1pe13.6e2,'  ',1pe13.6e2,'  ',1pe13.6e2,'  ',1pe13.6e2)

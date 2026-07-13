@@ -2,6 +2,7 @@
 $esmf = "FALSE";
 $tim = "FALSE";
 $jac = "FALSE";
+$ffro = "FALSE";
 $mpi = "FALSE";
 $f95 = "FALSE";
 $dos = "FALSE";
@@ -20,6 +21,7 @@ while ( $ARGV[0]=~/-.*/ )
    if ($ARGV[0]=~/-esmf/) {$esmf="TRUE";shift;}
    if ($ARGV[0]=~/-timg/) {$tim="TRUE";shift;}
    if ($ARGV[0]=~/-jac/) {$jac="TRUE";shift;}
+   if ($ARGV[0]=~/-fixfront/) {$ffro="TRUE";shift;}
    if ($ARGV[0]=~/-mpi/) {$mpi="TRUE";shift;}
    if ($ARGV[0]=~/-f95/) {$f95="TRUE";shift;}
    if ($ARGV[0]=~/-dos/) {$dos="TRUE";shift;}
@@ -82,6 +84,8 @@ foreach $file (@files)
       if ($tim=~/TRUE/) {$newline=~s/^!TIMG//;}
       if ($jac=~/TRUE/) {$newline=~s/^!JAC//;}
       else              {$newline=~s/^!WFR//;}
+      if ($ffro=~/TRUE/) {$newline=~s/^!FXFRO//;}
+      else               {$newline=~s/^!GRAPH//;}
       if ($mpi=~/TRUE/) {$newline=~s/^!MPI//;}
       if ($f95=~/TRUE/) {$newline=~s/^!F95//;}
       if ($dos=~/TRUE/) {$newline=~s/^!DOS//;}
