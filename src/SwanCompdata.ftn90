@@ -31,11 +31,14 @@ module SwanCompdata
 !
 !   40.80: Marcel Zijlema
 !   40.92: Marcel Zijlema
+!   43.05: Marcel Zijlema
 !
 !   Updates
 !
-!   40.80, July 2007: New Module
-!   40.92, June 2008: changes with respect to boundary polygons
+!   40.80,    July 2007: New Module
+!   40.92,    June 2008: changes with respect to boundary polygons
+!GRAPH!   43.05, January 2023: wavefront scheduling based on graph levels
+!FXFRO!   43.05, January 2023: wavefront scheduling
 !
 !   Purpose
 !
@@ -58,6 +61,7 @@ module SwanCompdata
 !
     integer                                    :: nbpol  ! total number of boundary polygons
     integer, dimension(10000)                  :: nbpt   ! number of boundary vertices for each boundary polygon
+!FXFRO    integer                                    :: nfront ! number of wavefronts
 !
     integer, dimension(MICMAX)                 :: vs     ! computational stencil, i.e. set of vertices
                                                          ! needed for the computation of a new value
@@ -67,6 +71,11 @@ module SwanCompdata
     integer, dimension(:,:), save, allocatable :: blist  ! list of boundary vertices in ascending order for each boundary polygon
     integer, dimension(:,:), save, allocatable :: bmark  ! list of corresponding boundary markers for each boundary polygon
     integer, dimension(:,:), save, allocatable :: bvertg ! global index of boundary vertex in own subdomain
+!GRAPH    integer, dimension(:,:), save, allocatable :: flist  ! wavefront list
+!GRAPH    integer, dimension(:,:), save, allocatable :: fptr   ! pointers per wavefront
+!FXFRO    integer, dimension(:)  , save, allocatable :: fronts ! start vertex index of wavefronts
+!FXFRO    integer, dimension(:)  , save, allocatable :: fronte ! end vertex index of wavefronts
+!GRAPH    integer, dimension(:)  , save, allocatable :: nfront ! number of wavefronts
     integer, dimension(:,:), save, allocatable :: vlist  ! vertex list
 !
 !   Source text

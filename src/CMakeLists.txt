@@ -23,6 +23,10 @@ if( METIS )
   list( APPEND SWITCHES -metis )
 endif()
 #
+if( FFRO )
+  list( APPEND SWITCHES -fixfront )
+endif()
+#
 if( NETCDF )
   list( APPEND SWITCHES -netcdf )
 endif()

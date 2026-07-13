@@ -58,7 +58,6 @@ ${SRC}/SwanInterpolateAc.f90
 ${SRC}/SwanInterpolateOutput.f90
 ${SRC}/SwanConvAccur.f90
 ${SRC}/SwanConvStopc.f90
-${SRC}/SwanThreadBounds.f90
 ${SRC}/SwanFindObstacles.f90
 ${SRC}/SwanCrossObstacle.f90
 ${SRC}/SwanComputeForce.f90

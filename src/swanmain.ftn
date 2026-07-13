@@ -965,7 +965,7 @@
       VERNUM = 41.51
       WRITE (VERTXT, '(F5.2)') VERNUM                                     40.03
       CALL BUGFIX ('A')
-!      CALL BUGFIX ('B')
+      CALL BUGFIX ('B')
 !
       CALL OCPINI ('swaninit', .TRUE.,INERR)                              34.01
       IF (INERR.GT.0) RETURN                                              34.01
@@ -9287,6 +9287,11 @@
       IF (ALLOCATED( blist  )) DEALLOCATE( blist  )
       IF (ALLOCATED(bvertg  )) DEALLOCATE(bvertg  )
       IF (ALLOCATED( bmark  )) DEALLOCATE( bmark  )
+!GRAPH      IF (ALLOCATED( flist  )) DEALLOCATE( flist  )
+!GRAPH      IF (ALLOCATED(  fptr  )) DEALLOCATE(  fptr  )
+!FXFRO      IF (ALLOCATED(fronts  )) DEALLOCATE(fronts  )
+!FXFRO      IF (ALLOCATED(fronte  )) DEALLOCATE(fronte  )
+!GRAPH      IF (ALLOCATED(nfront  )) DEALLOCATE(nfront  )
 !
 !METIS      IF (ALLOCATED(ipown   )) DEALLOCATE(ipown   )
 !METIS      IF (ALLOCATED(vres    )) DEALLOCATE(vres    )
