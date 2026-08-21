@@ -596,6 +596,11 @@
            CHARACTER STR1 *(*), STR2 *(*)
          END FUNCTION EQCSTR
 !
+         SUBROUTINE TXPBLA ( TEXT, IF, IL )
+           INTEGER IF, IL
+           CHARACTER TEXT *(*)
+         END SUBROUTINE TXPBLA
+!
       END INTERFACE
 !
       END MODULE OCPCOMM4
