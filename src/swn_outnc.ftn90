@@ -190,7 +190,6 @@ contains
 !     nf90_close
 !     swn_outnc_deallocate_spcaux
 !
-      logical STPNOW
 !
 !  9. Subroutines calling
 !
@@ -557,7 +556,7 @@ contains
 !
 !  5. Local variables
 !
-      logical                                        :: EQREAL, lopen, do_open_files, write_header
+      logical                                        :: lopen, do_open_files, write_header
       integer                                        :: ip, ierr, otype, xpctmp(2), xpctime, &
                                                         pnr, ri, i, tmip, irq, ips(MIP), iproc, &
                                                         binnr, xi, yi, npnts, kgrpnt1d(MXC*MYC)
@@ -568,7 +567,6 @@ contains
 !
 !     SWCMSP
 !
-      logical STPNOW
 !
 !  9. Subroutines calling
 !
@@ -912,7 +910,6 @@ contains
 !
 !     SWCMSP
 !
-      logical STPNOW
 !
 !  9. Subroutines calling
 !

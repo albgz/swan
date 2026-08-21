@@ -154,7 +154,6 @@
 !     SWSPEC
 !     FOR
 !
-      LOGICAL STPNOW                                                      34.01
 !
 !  9. Subroutines calling
 !
@@ -1002,7 +1001,6 @@
 !       ----------------------------------------------------------------
 !
       CHARACTER  PSNAME *(*), PSTYPE *1
-      LOGICAL    EQREAL
 !
       SAVE IENT
       DATA IENT /0/
@@ -1596,8 +1594,7 @@
       INTEGER    NREF, IOSTAT
       INTEGER, ALLOCATABLE :: KVERT(:)                                    41.07
       CHARACTER  RTYPE*4                                                  41.95
-      LOGICAL    OQPROC(*), EQREAL                                        30.72
-      LOGICAL    STPNOW
+      LOGICAL    OQPROC(*)                                                30.72
       LOGICAL    CROSS(4,MIP)                                             40.86
       LOGICAL, ALLOCATABLE :: LTMP(:)                                     40.91
 !
@@ -3379,7 +3376,7 @@
       REAL, ALLOCATABLE :: FLUX(:,:,:), FLOC(:,:)
       REAL, ALLOCATABLE :: EBLOC(:,:)
 !
-      LOGICAL    OQPROC(*), EQREAL                                        30.72
+      LOGICAL    OQPROC(*)                                                30.72
       LOGICAL :: EXCPT     ! if true value in point is undefined          40.86
       INTEGER    NOSWLL                                                   41.72
       SAVE IENT, IVOTP
@@ -5285,7 +5282,6 @@
       REAL    XC(MIP), YC(MIP)
       REAL    XCGRID(MXC,MYC), YCGRID(MXC,MYC)                            30.72
       REAL    VOQ(MIP,*), WK(*)
-      LOGICAL    EQREAL                                                   30.72
 !
 !  5. Parameter variables
 !
@@ -5363,7 +5359,6 @@
 !TIMG!     SWTSTA           Start timing for a section of code
 !TIMG!     SWTSTO           Stop timing for a section of code
 !
-      LOGICAL STPNOW
 !
 !  9. Subroutines calling
 !

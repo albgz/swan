@@ -592,7 +592,6 @@
 !MPI!     STPNOW : Logical indicating whether program must
 !MPI!              terminated or not
 !
-!MPI      LOGICAL STPNOW                                                      34.01
 !
 !  9. Subroutines calling
 !
@@ -4631,8 +4630,6 @@
 !                      terminated or not
 !     SWREDUCE         Performs a global reduction
 !
-      LOGICAL EQREAL
-!MPI      LOGICAL STPNOW
 !
 !  9. Subroutines calling
 !
@@ -9751,8 +9748,6 @@
 !                      terminated or not
 !     SWREDUCE         Performs a global reduction
 !
-      LOGICAL EQREAL
-!MPI      LOGICAL STPNOW
 !
 !  9. Subroutines calling
 !

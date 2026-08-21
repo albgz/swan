@@ -5609,7 +5609,6 @@
 !     STRACE           Tracing routine for debugging
 !     SWEXCHG          exchanges some data at subdomain boundaries
 !
-      LOGICAL EQREAL, STPNOW
 !
 !  9. Subroutines calling
 !

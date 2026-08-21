@@ -5761,7 +5761,6 @@
       REAL    :: DXA, DYA, DEPLOC, EMAX, ET, KW, LW
       REAL    :: SIGMA(1), KWAVE(1), ARR(1)
       REAL    :: LPAR, BETA
-      LOGICAL :: STPNOW
 !
 ! 13. Source text
 !

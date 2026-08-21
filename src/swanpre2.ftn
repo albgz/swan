@@ -111,7 +111,6 @@
 !     SWREOQ
 !     STPNOW
 !
-      LOGICAL STPNOW                                                      34.01
 !
 !  9. Subroutines calling
 !
@@ -136,7 +135,6 @@
 ! 13. Source text
 !
       LOGICAL   FOUND
-      LOGICAL   KEYWIS
       SAVE IENT
       DATA IENT/0/                                                        40.31 30.81
       CALL STRACE (IENT,'SPROUT')
@@ -294,8 +292,6 @@
 !     command reading routines
 !     (all Ocean Pack)
 
-      LOGICAL :: STPNOW                                                   34.01
-      LOGICAL :: EQREAL ! if True the two (real) arguments are equal      33.09
 
 !  9. Subroutines calling
 !
@@ -310,7 +306,7 @@
       LOGICAL   PP                                                        30.72
       INTEGER   IERR, SIRAY                                               30.81 30.72
       CHARACTER PSNAME*16, STYPE*1, PRNAME*16                             40.31 30.21
-      LOGICAL   KEYWIS, BOTDEP                                            30.70
+      LOGICAL   BOTDEP                                                    30.70
       SAVE IENT
       DATA IENT/0/
       CALL STRACE (IENT,'SWREPS')
@@ -1119,7 +1115,6 @@
 !     command reading routines
 !     (all Ocean Pack)
 !
-      LOGICAL STPNOW                                                      34.01
 !
 !  9. Subroutines calling
 !
@@ -1134,7 +1129,6 @@
       PARAMETER  (NEXPT=10)                                               41.62
       INTEGER IERR                                                        40.31
       CHARACTER PSNAME *16, STYPE *1, RTYPE *4                            40.31
-      LOGICAL   KEYWIS                                                    40.31
       TYPE(ORQDAT), POINTER :: ORQTMP                                     40.31
       TYPE(ORQDAT), SAVE, POINTER :: CORQ                                 40.31
       TYPE AUXT                                                           40.31
@@ -2175,7 +2169,7 @@
 !     ----------------------------------------------------------------
 !  10. SOURCE TEXT
 !
-      LOGICAL   EQREAL, BOTDEP                                            30.72
+      LOGICAL   BOTDEP                                                    30.72
       REAL      BOTLEV(*), WATLEV(*)                                      30.70
       SAVE IENT
       DATA IENT/0/
@@ -2601,7 +2595,7 @@
       REAL      RLEN1,RDIST,RLEN2,XC1,YC1,XC2,YC2,W1
       REAL      DET, DXLOC, DYLOC, X1, Y1, X2, Y2, X3, Y3                 43.01
 
-      LOGICAL   KEYWIS, LOCGRI, CCW, BPARF, BOUNPT, DONALL
+      LOGICAL   LOCGRI, CCW, BPARF, BOUNPT, DONALL                      
       LOGICAL   LFRST1, LFRST2, LFRST3                                    40.31
       LOGICAL, SAVE :: BNDDONE = .FALSE.                                  43.01
       LOGICAL   SwanPointinMesh                                           43.01
@@ -2634,8 +2628,6 @@
 !       Ocean Pack command reading routines
 !       BOUNPT
 !
-      LOGICAL STPNOW                                                      34.01
-      LOGICAL EQREAL
 !
 !  9. Subroutines calling
 !
@@ -4000,7 +3992,7 @@
 !       Ocean Pack command reading routines
 !       SWBCPT : boundary points interpolation
 !
-      LOGICAL STPNOW, EQCSTR                                              40.03
+      LOGICAL EQCSTR                                                      40.03
 !
 !  9. Subroutines calling
 !
@@ -4462,7 +4454,6 @@
 !
 !       Ocean Pack command reading routines
 !
-      LOGICAL :: STPNOW                                                   34.01
 
 
 !  7. ERROR MESSAGES
@@ -4596,7 +4587,6 @@
 
 !     subroutines used
 
-      LOGICAL :: KEYWIS
 
       INTEGER, SAVE :: IENT = 0                                           40.13
       CALL STRACE (IENT, 'BCWAMN')
@@ -5121,8 +5111,6 @@
 !     Ocean Pack command reading routines
 !     SWBCPT, STPNOW
 !
-      LOGICAL   :: STPNOW
-      LOGICAL   :: KEYWIS
 !
 !  9. Subroutines calling
 !
@@ -6117,7 +6105,6 @@
 !
 !  6. SUBROUTINES USED
 !
-      LOGICAL STPNOW                                                      34.01
 !
 !  7. Common blocks used
 !
@@ -6147,7 +6134,7 @@
 ! 10. SOURCE TEXT
 !
       INTEGER   KGRPNT(MXC,MYC), KGRBND(*)                                40.31
-      LOGICAL   KEYWIS, LOCGRI                                            40.00
+      LOGICAL   LOCGRI                                                    40.00
       TYPE(OPSDAT), POINTER :: OPSTMP                                     40.31
       SAVE      IENT
       DATA      IENT /0/

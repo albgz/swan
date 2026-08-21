@@ -528,6 +528,66 @@
 !
 ! 13. Source text
 !
+!     Explicit interfaces for the Ocean Pack utility routines defined in
+!     OCPMIX.FTN and OCPCRE.FTN. The routines keep their original
+!     implementations; the interfaces let the compiler check every call.
+!
+      INTERFACE
+!
+!     OCPMIX.FTN
+!
+         SUBROUTINE STRACE ( IENT, SUBNAM )
+           INTEGER  IENT
+           CHARACTER SUBNAM *(*)
+         END SUBROUTINE STRACE
+!
+         SUBROUTINE MSGERR ( LEV, STRING )
+           INTEGER   LEV
+           CHARACTER STRING *(*)
+         END SUBROUTINE MSGERR
+!
+         LOGICAL FUNCTION STPNOW()
+         END FUNCTION STPNOW
+!
+         SUBROUTINE FOR ( IUNIT, DDNAME, SF, IOSTAT )
+           INTEGER   IUNIT, IOSTAT
+           CHARACTER DDNAME *(140), SF *2
+         END SUBROUTINE FOR
+!
+         LOGICAL FUNCTION EQREAL ( REAL1, REAL2 )
+           REAL REAL1, REAL2
+         END FUNCTION EQREAL
+!
+!     OCPCRE.FTN
+!
+         SUBROUTINE INKEYW ( KONT, CSTA )
+           CHARACTER KONT *(*), CSTA *(*)
+         END SUBROUTINE INKEYW
+!
+         SUBROUTINE INREAL ( NAAM, R, KONT, RSTA )
+           CHARACTER NAAM *(*), KONT *(*)
+           REAL R, RSTA
+         END SUBROUTINE INREAL
+!
+         SUBROUTINE ININTG ( NAAM, IV, KONT, ISTA )
+           CHARACTER NAAM *(*), KONT *(*)
+           INTEGER IV, ISTA
+         END SUBROUTINE ININTG
+!
+         SUBROUTINE INCSTR ( NAAM, C, KONT, CSTA )
+           CHARACTER NAAM *(*), KONT *(*), C *(*), CSTA *(*)
+         END SUBROUTINE INCSTR
+!
+         LOGICAL FUNCTION KEYWIS ( STRING )
+           CHARACTER STRING *(*)
+         END FUNCTION KEYWIS
+!
+         SUBROUTINE IGNORE ( STRING )
+           CHARACTER STRING *(*)
+         END SUBROUTINE IGNORE
+!
+      END INTERFACE
+!
       END MODULE OCPCOMM4
 
       MODULE SWCOMM1

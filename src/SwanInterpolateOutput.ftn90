@@ -108,7 +108,6 @@ subroutine SwanInterpolateOutput ( foutp, x, y, finp, mip, kvert, excval )
     !
     logical                               :: cellfound ! indicate whether cell containing given point is found or not
     logical, dimension (3)                :: cross     ! if true there is an obstacle between given point and vertex
-    logical                               :: EQREAL    ! indicate whether two reals are equal or not
     logical                               :: obstcell  ! if true there is an obstacle in cell
     logical                               :: TCROSS    ! determines whether two line segments cross
     logical                               :: xonobst   ! not used

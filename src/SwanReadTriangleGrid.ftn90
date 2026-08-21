@@ -72,7 +72,6 @@ subroutine SwanReadTriangleGrid ( basenm, lenfnm )
     integer           :: nnodes   ! number of nodes per triangle
     real              :: rdum     ! dummy value
     character(80)     :: line     ! auxiliary textline
-    logical           :: stpnow   ! indicate whether program must be terminated or not
 !
 !   Structure
 !

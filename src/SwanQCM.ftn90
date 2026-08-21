@@ -208,7 +208,6 @@ subroutine SWQCINIT ( BGRIDP, COMPDA )
     real                            :: sdev                ! global standard deviation in wave number (1/m)
     !
     logical                         :: lpb                 ! indicate whether boundary point is a test point
-    logical                         :: stpnow              ! indicate whether program must be terminated or not
     !
     character(80)                   :: msgstr              ! string to pass message
 !
@@ -1297,7 +1296,6 @@ subroutine QCSOURCE ( imatra, imatda, iter  , ac2   , dep2  , ux2   , uy2   , &
     real, dimension(mkyc,mkxc)   :: dwdy     ! y-derivative of Wigner distribution
     real, dimension(mkyc,mkxc,5) :: W        ! the Wigner distribution in wave number space
     !
-    logical                      :: stpnow   ! indicate whether program must be terminated or not
 !
 !   Structure
 !

@@ -96,7 +96,6 @@
       INTEGER    PFROPT                                                   40.31
       REAL       PLPARM(10)                                               40.31
       INTEGER    NUMM(10)                                                 40.41
-      LOGICAL    STPNOW
       DATA PRCTIM /0,0,0,0,0,0/
 !
 !     version of initialisation file                                      10.16

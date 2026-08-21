@@ -223,7 +223,7 @@
       USE OCPCOMM1                                                        40.41
       USE OCPCOMM2                                                        40.41
       USE OCPCOMM3                                                        40.41
-      USE OCPCOMM4                                                        40.41
+      USE OCPCOMM4, ONLY: ITEST, MSGERR, PRINTF, STRACE                   40.41
 !
       IMPLICIT NONE
 !
@@ -370,7 +370,7 @@
       USE OCPCOMM1                                                        40.41
       USE OCPCOMM2                                                        40.41
       USE OCPCOMM3                                                        40.41
-      USE OCPCOMM4                                                        40.41
+      USE OCPCOMM4, ONLY: STRACE                                          40.41
 !
       IMPLICIT NONE
 !
@@ -579,7 +579,6 @@
 !
 !     EQREAL :
 !
-      LOGICAL   EQREAL                                                    30.72
 !
 !  8. SUBROUTINE USED
 !
@@ -687,7 +686,7 @@
       USE OCPCOMM1                                                        40.41
       USE OCPCOMM2                                                        40.41
       USE OCPCOMM3                                                        40.41
-      USE OCPCOMM4                                                        40.41
+      USE OCPCOMM4, ONLY: FOR, ITEST, MSGERR, PRINTF, STRACE              40.41
 !
       IMPLICIT NONE
 !
@@ -847,7 +846,7 @@
       USE OCPCOMM1                                                        40.41
       USE OCPCOMM2                                                        40.41
       USE OCPCOMM3                                                        40.41
-      USE OCPCOMM4                                                        40.41
+      USE OCPCOMM4, ONLY: FOR, ITEST, MSGERR, PRINTF, STRACE              40.41
 !
       IMPLICIT NONE
 !
@@ -1315,7 +1314,6 @@
 !     KEYWIS : logical function, True if keyword encountered is equal to
 !              keyword in user manual
 !
-      LOGICAL   KEYWIS
 !
 !  8. SUBROUTINE USED
 !
@@ -1457,7 +1455,6 @@
 !     KEYWIS : logical function, True if keyword encountered is equal to
 !              keyword in user manual
 !
-      LOGICAL   KEYWIS
 !
 !  8. SUBROUTINE USED
 !
@@ -2321,7 +2318,7 @@
       USE OCPCOMM1                                                        40.41
       USE OCPCOMM2                                                        40.41
       USE OCPCOMM3                                                        40.41
-      USE OCPCOMM4                                                        40.41
+      USE OCPCOMM4, ONLY: STRACE                                          40.41
 !
       IMPLICIT NONE
 !
@@ -2520,7 +2517,7 @@
       USE OCPCOMM1                                                        40.41
       USE OCPCOMM2                                                        40.41
       USE OCPCOMM3                                                        40.41
-      USE OCPCOMM4                                                        40.41
+      USE OCPCOMM4, ONLY: INKEYW, ITEST, KEYWIS, PRINTF, STRACE           40.41
 !
       IMPLICIT NONE
 !
@@ -2585,7 +2582,6 @@
 !
 !     KEYWIS : logical function
 !
-      LOGICAL   KEYWIS
 !
 !  8. SUBROUTINE USED
 !

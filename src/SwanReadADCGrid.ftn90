@@ -78,7 +78,6 @@ subroutine SwanReadADCGrid
     integer                 :: nopbc    ! number of open boundaries in ADCIRC
     integer                 :: vm       ! boundary marker
     character(80)           :: line     ! auxiliary textline
-    logical                 :: stpnow   ! indicate whether program must be terminated or not
 !
 !   Structure
 !

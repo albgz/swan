@@ -113,7 +113,6 @@
 !       MSGERR, COPYCH, FOR
 !       SWRMAT, TXPBLA
 !
-      LOGICAL STPNOW                                                      34.01
 !
 !  7. ERROR MESSAGES
 !
@@ -678,7 +677,6 @@
 !                      terminated or not
 !     STRACE           Tracing routine for debugging
 !
-      LOGICAL STPNOW
 !
 !  9. Subroutines calling
 !
@@ -805,7 +803,7 @@
       INTEGER IXK, IYK, MXKF, MXKL, MYKF, MYKL, MXE, MYE
       INTEGER IOSTAT, IENT
       INTEGER IPRC, IARRL(4), IARRC(4,0:NPROC-1)
-      LOGICAL LC, STPNOW
+      LOGICAL LC                                                        
       CHARACTER (LEN=4) :: PNUM
       CHARACTER (LEN=20) :: CTIM, NUMSTR
       CHARACTER (LEN=1024) :: PVDLINE
@@ -1312,7 +1310,6 @@
 !     FOR
 !     TABHED (all Ocean Pack)
 !
-      LOGICAL STPNOW                                                      34.01
 !
 !  9. Subroutines calling
 !
@@ -1834,7 +1831,6 @@
 !     ANGDEG: Transforms degrees to radians                               32.01
 !     SWCMSP
 !
-      LOGICAL STPNOW                                                      34.01
 !
 !  9. Subroutines calling
 !
@@ -1867,7 +1863,6 @@
       REAL*8    OQR(2)
       REAL      VOQ(MIP,*), AC2(MDC,MSC,MCGRD),
      &          ACLOC(*), DEP2(MCGRD)                                     40.00
-      LOGICAL   EQREAL
 !NCF      LOGICAL, SAVE :: NCF =.FALSE.                                       41.40
 
       INTEGER, SAVE :: IENT=0                                             40.13
@@ -2223,7 +2218,6 @@
      &          ACLOC(*)        ,ECOS(MDC)         ,ESIN(MDC)             40.00
       REAL      CG(1), K1(1), K2(1), N(1), ND(1), SIG1(1), SIG2(1)        30.82
       LOGICAL EXCPT                                                       40.80
-      LOGICAL EQREAL                                                      41.54
       REAL, ALLOCATABLE :: ACL(:,:)                                       40.80
 !
       SAVE IENT

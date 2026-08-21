@@ -65,7 +65,6 @@ subroutine SwanReadEasymeshGrid ( basenm, lenfnm )
     integer           :: j        ! loop counter
     integer           :: ndsd     ! unit reference number of file
     character(80)     :: line     ! auxiliary textline
-    logical           :: stpnow   ! indicate whether program must be terminated or not
 !
 !   Structure
 !

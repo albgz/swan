@@ -326,7 +326,6 @@
 !     NUMSTR : Converts integer/real to string                            40.41
 !     TXPBLA : Removes leading and trailing blanks in string              40.41
 !
-      LOGICAL STPNOW                                                      34.01
 !
 !  9. Subroutines calling
 !
@@ -956,7 +955,6 @@
 !
 !  8. Subroutines used
 !
-      LOGICAL STPNOW                                                      34.01
 !
 !  9. Subroutines calling
 !
@@ -5482,7 +5480,6 @@
 !     LOGICAL FUNCTION EQREAL: Checks whether two reals are equal within certain margins
 !     STRACE: Traces the entry into subroutines (test purposes)
 !
-      LOGICAL  EQREAL
 !
 !  9. Subroutines calling
 !
@@ -6365,7 +6362,6 @@
 !
 ! 13. Source text
 !
-      LOGICAL  EQREAL                                                     40.53
       SAVE IENT
       DATA IENT/0/
       IF (LTRACE) CALL STRACE (IENT,'ERRCHK')
@@ -6877,7 +6873,6 @@
 !
 !     SWBROADC
 !
-      LOGICAL STPNOW                                                      34.01
 !
 !  9. Subroutines calling
 !
@@ -8262,7 +8257,6 @@
 !
 !       GAMMAF (in SWANSER)
       REAL :: GAMMAF                                                      40.03
-      LOGICAL EQREAL                                                      40.41
 !
 !  9. Subroutines calling
 !
@@ -8666,7 +8660,6 @@
 !     STRACE
 !     SWBROADC
 !
-      LOGICAL STPNOW                                                      34.01
 !
 !  7. ERROR MESSAGES
 !

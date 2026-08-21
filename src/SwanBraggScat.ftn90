@@ -154,7 +154,6 @@ subroutine SWBRBOT
     !
     logical       :: filb     ! indicate whether bottom spectrum is available through file or not
     logical       :: ingrd    ! Boolean variable to determine whether point is in depth grid or not
-    logical       :: EQREAL   ! indicate whether two reals are equal or not
     !
     character(80) :: msgstr   ! string to pass message
     !

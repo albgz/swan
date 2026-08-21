@@ -399,12 +399,9 @@
 !     INREAL
 !     FOR
 !     KEYWIS
-      LOGICAL :: KEYWIS                                                   40.03
 !     COPYCH
-      LOGICAL :: EQREAL                                                   40.00
 !     (all Ocean Pack)
 !
-      LOGICAL STPNOW                                                      34.01
 !
 !  9. Subroutines calling
 !
@@ -3806,7 +3803,6 @@
 !
 !  8. Subroutines used
 !
-      LOGICAL STPNOW                                                      34.01
 !
 ! 10. Error messages
 !
@@ -3825,7 +3821,6 @@
 !
       INTEGER   IGRID1, IGRID2
       CHARACTER SNAMEG *8
-      LOGICAL   KEYWIS                                                    30.00
       TYPE(OPSDAT), POINTER :: OPSTMP                                     40.31
       SAVE IENT
       DATA IENT/0/
@@ -4224,7 +4219,6 @@
 !     OTAR2D
 !     REPARM (all Ocean Pack)
 !
-      LOGICAL STPNOW                                                      34.01
 !
 !  9. Subroutines calling
 !
@@ -4278,7 +4272,7 @@
 ! 13. Source text
 !
       REAL, ALLOCATABLE :: TARR(:)                                        40.31
-      LOGICAL    KEYWIS, VECTOR                                           30.00
+      LOGICAL    VECTOR                                                   30.00
       LOGICAL    LOGCOM(7)                                                42.10 30.21
       SAVE  IENT
       DATA  IENT/0/
@@ -4851,7 +4845,6 @@
 !TIMG!     SWTSTO                                                              40.31
 !     TXPBLA : Removes leading and trailing blanks in string              40.41
 !
-      LOGICAL STPNOW                                                      34.01
 !
 ! 10. ERROR MESSAGES
 !
@@ -5117,7 +5110,6 @@
 !
       INTEGER     KGRPNT(MXC,MYC)
       REAL        DEPTH(*)                                                40.00
-      LOGICAL     EQREAL                                                  40.00
       SAVE IENT
       DATA IENT/0/
       CALL STRACE(IENT,'SWDIM')
@@ -6126,7 +6118,7 @@
 !
 !  8. Subroutines used
 !
-      LOGICAL :: STPNOW, EQCSTR                                           40.03
+      LOGICAL :: EQCSTR                                                   40.03
 !
 ! 13. Source text
 !
@@ -6135,12 +6127,11 @@
       INTEGER JXMAX, JYMAX, NPTOT                                         40.80 40.62
       REAL       AC2(MDC,MSC,MCGRD)                                       40.31
       LOGICAL SINGLEHOT, PTNSUBGRD                                        40.62
-      LOGICAL    KEYWIS, LERR                                             40.31 40.00
+      LOGICAL    LERR                                                     40.31 40.00
       CHARACTER  RLINE *80                                                40.00
       CHARACTER  RPROJID*16, RPROJNR*4, RVERTXT*20, RCHTIME*20            41.42
       INTEGER IID, IUNITAC                                                40.41
       REAL    ACTMP(MDC), DIRTMP(MDC), ACLOC(MDC,MSC)                     41.42 40.41
-      LOGICAL EQREAL                                                      40.41
 !
       SAVE       IENT
       DATA       IENT /0/
@@ -6712,15 +6703,12 @@
 !
 !  8. Subroutines used
 !
-      LOGICAL STPNOW                                                      34.01
 !
 ! 13. Source text
 !
       REAL     AC2(MDC,MSC,MCGRD)
       INTEGER  KGRPNT(MXC,MYC)
       CHARACTER (LEN=8) :: CRFORM = '(2F14.4)'                            40.41
-      LOGICAL  EQREAL                                                     40.41
-      LOGICAL  KEYWIS                                                     41.42
       SAVE     IENT
       DATA     IENT /0/
       CALL STRACE (IENT, 'BACKUP')

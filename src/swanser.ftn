@@ -3024,7 +3024,6 @@
 !
       REAL    DEGCNV                                                      42.06
       REAL    GAMMAF                                                      42.06
-      LOGICAL EQREAL
       LOGICAL TCROSS                                                      40.14
 !
 !  9. Subroutines calling

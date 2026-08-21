@@ -650,7 +650,7 @@
 !     HEDLIN : Content of a header line
 !     KEYWIS : ??
 !
-      LOGICAL   KEYWIS, BNEW
+      LOGICAL   BNEW                                                    
 !
 !     OLDFIL : ??
 !
@@ -658,7 +658,6 @@
 !                                                                         30.82
 !  8. SUBROUTINE USED
 !
-      LOGICAL   STPNOW                                                    34.01
 !
 !  9. SUBROUTINES CALLING
 !
@@ -901,7 +900,6 @@
 !
 !  8. SUBROUTINE USED
 !
-      LOGICAL STPNOW                                                      34.01
 !
 !  9. SUBROUTINES CALLING
 !
@@ -1144,7 +1142,7 @@
       USE OCPCOMM1                                                        40.41
       USE OCPCOMM2                                                        40.41
       USE OCPCOMM3                                                        40.41
-      USE OCPCOMM4                                                        40.41
+      USE OCPCOMM4, ONLY: ITRACE, PRINTF, PRTEST, SCREEN                  40.41
       USE M_PARALL                                                        40.31
 !
       IMPLICIT NONE
@@ -1254,7 +1252,7 @@
       USE OCPCOMM1                                                        40.41
       USE OCPCOMM2                                                        40.41
       USE OCPCOMM3                                                        40.41
-      USE OCPCOMM4                                                        40.41
+      USE OCPCOMM4, ONLY: LEVERR, MAXERR, PRINTF                          40.41
       USE M_PARALL                                                        40.31
 !
       IMPLICIT NONE
@@ -1399,7 +1397,7 @@
 !                                                                *
 !*****************************************************************
 !
-      USE OCPCOMM4                                                        40.41
+      USE OCPCOMM4, ONLY: LEVERR, MAXERR, STRACE                          40.41
 !
       IMPLICIT NONE
 !
@@ -1595,7 +1593,9 @@
       USE OCPCOMM1                                                        40.41
       USE OCPCOMM2                                                        40.41
       USE OCPCOMM3                                                        40.41
-      USE OCPCOMM4                                                        40.41
+      USE OCPCOMM4,                                                     
+     &ONLY: FUNHI, FUNLO, HIOPEN, ITEST, IUNMAX, IUNMIN, MSGERR,        
+     &PRINTF, PRTEST, STRACE                                            
 !
       IMPLICIT NONE
 !
@@ -1945,7 +1945,7 @@
       USE OCPCOMM1                                                        40.41
       USE OCPCOMM2                                                        40.41
       USE OCPCOMM3                                                        40.41
-      USE OCPCOMM4                                                        40.41
+      USE OCPCOMM4, ONLY: STRACE                                          40.41
 !
       IMPLICIT NONE
 !

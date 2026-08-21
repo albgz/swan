@@ -2229,7 +2229,6 @@
 !WFR!     SWSTRIP          Performs a stripwise partitioning with straight
 !WFR!                      interfaces
 !
-      LOGICAL STPNOW
 !
 !  9. Subroutines calling
 !
@@ -2728,7 +2727,6 @@
 !     SWPARTIT         Carries out the partitioning of the SWAN
 !                      computational grid
 !
-      LOGICAL STPNOW
 !
 !  9. Subroutines calling
 !
@@ -2915,7 +2913,6 @@
 !JAC!TIMG!     SWTSTA           Start timing for a section of code
 !JAC!TIMG!     SWTSTO           Stop timing for a section of code
 !JAC!
-!JAC      LOGICAL STPNOW
 !JAC!
 !JAC!  9. Subroutines calling
 !JAC!
@@ -3134,7 +3131,6 @@
 !WFR!TIMG!     SWTSTA           Start timing for a section of code
 !WFR!TIMG!     SWTSTO           Stop timing for a section of code
 !WFR!
-!WFR      LOGICAL STPNOW
 !WFR!
 !WFR!  9. Subroutines calling
 !WFR!
@@ -3321,7 +3317,6 @@
 !WFR!     STRACE           Tracing routine for debugging
 !WFR!     SWRECVNB         Data is received from a neighbour
 !WFR!
-!WFR      LOGICAL STPNOW
 !WFR!
 !WFR!  9. Subroutines calling
 !WFR!
@@ -3485,7 +3480,6 @@
 !WFR!     STRACE           Tracing routine for debugging
 !WFR!     SWSENDNB         Data is sent to a neighbour
 !WFR!
-!WFR      LOGICAL STPNOW
 !WFR!
 !WFR!  9. Subroutines calling
 !WFR!
@@ -3662,7 +3656,6 @@
 !     STRACE           Tracing routine for debugging
 !     SWGATHER         Gathers different amounts of data from all nodes
 !
-      LOGICAL STPNOW
 !
 !  9. Subroutines calling
 !
@@ -3978,7 +3971,6 @@
 !     SWCOLTAB         Collects table ouput
 !     SWOEXC           Computes coordinates of output points              40.51
 !
-      LOGICAL   EQREAL, STPNOW
 !
 !  9. Subroutines calling
 !
@@ -4380,7 +4372,7 @@
      &              IUT, IVTYPE, IXK, IYK, JVAR, LFIELD, NLINES,
      &              NREF, NUMDEC, NVAR
       REAL          RVAL1, RVAL2
-      LOGICAL       EXIST, OPENED, EQREAL
+      LOGICAL       EXIST, OPENED                                       
       CHARACTER*80  MSGSTR
       CHARACTER*18  FSTR
       CHARACTER*512 OUTLIN
@@ -4726,7 +4718,7 @@
       INTEGER       I, IBLKN, IENT, IF, IL, ILPOS, IP, IPROC, IS,
      &              IUNIT, IUT, IXK, IYK, NLINES, NREF, OTYPE
       REAL          RVAL1, RVAL2
-      LOGICAL       EMPTY, EXIST, OPENED, EQREAL
+      LOGICAL       EMPTY, EXIST, OPENED                                
 !NCF      LOGICAL, SAVE :: NCF = .FALSE.                                      41.40
       CHARACTER*80  MSGSTR
       CHARACTER (LEN=LENSPO) OUTLIN
@@ -4740,7 +4732,6 @@
 !NCF!     swn_outnc_colspc Collect spectral output for netcdf
 !     TXPBLA           Removes leading and trailing blanks in string
 !
-!NCF      LOGICAL STPNOW
 !
 !  9. Subroutines calling
 !
@@ -5136,7 +5127,7 @@
      &             NVAR
       REAL         DFAC, FMAX, FTIP, FTIP1, FTIP2
       REAL         RVAL1, RVAL2
-      LOGICAL      EXIST, OPENED, EQREAL
+      LOGICAL      EXIST, OPENED                                        
       INTEGER, SAVE :: IREC(MAX_OUTP_REQ)=0                               40.51 40.41
       LOGICAL, SAVE :: MATLAB=.FALSE.                                     40.41
 !NCF      LOGICAL, SAVE :: NCF   =.FALSE.                                     41.40
