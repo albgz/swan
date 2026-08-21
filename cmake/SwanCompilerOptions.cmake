@@ -11,17 +11,9 @@ if(CMAKE_Fortran_COMPILER_ID MATCHES "GNU")
          -Wsurprising -Wconversion-extra -Warray-temporaries
          -fcheck=all -fbacktrace
          -fno-second-underscore -ffree-line-length-none)
-    if(CMAKE_Fortran_COMPILER_VERSION VERSION_GREATER_EQUAL 10)
-      # Argument mismatches are reported as warnings, not errors, while the
-      # debt is repaired incrementally.
-      list(APPEND SWAN_FORTRAN_COMPILE_OPTIONS -fallow-argument-mismatch)
-    endif()
   else()
     list(APPEND SWAN_FORTRAN_COMPILE_OPTIONS
          -w -fno-second-underscore -ffree-line-length-none)
-    if(CMAKE_Fortran_COMPILER_VERSION VERSION_GREATER_EQUAL 10)
-      list(APPEND SWAN_FORTRAN_COMPILE_OPTIONS -fallow-argument-mismatch)
-    endif()
     if(WIN32 AND CMAKE_Fortran_COMPILER_VERSION VERSION_GREATER_EQUAL 7)
       list(APPEND SWAN_FORTRAN_COMPILE_OPTIONS -fdec)
     endif()
