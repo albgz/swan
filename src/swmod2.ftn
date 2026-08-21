@@ -671,8 +671,8 @@
 
       TYPE BSPCDAT
          INTEGER                :: BFILED(20)
-         INTEGER, POINTER       :: BSPLOC(:)
-         REAL, POINTER          :: BSPDIR(:), BSPFRQ(:)
+         INTEGER, POINTER, CONTIGUOUS :: BSPLOC(:)
+         REAL, POINTER, CONTIGUOUS    :: BSPDIR(:), BSPFRQ(:)
          TYPE(BSPCDAT), POINTER :: NEXTBSPC
       END TYPE BSPCDAT
 
@@ -704,6 +704,19 @@
         MODULE PROCEDURE DELETEBSPC
         MODULE PROCEDURE DELETEBS
         MODULE PROCEDURE DELETEBGP
+      END INTERFACE
+
+      INTERFACE
+         SUBROUTINE RBFILE (SPCSIG, SPCDIR, BFILED, BSPLOC,
+     &                      BSPDIR, BSPFRQ, BSPECS, XYTST)
+            IMPLICIT NONE
+            REAL, INTENT(IN), CONTIGUOUS :: SPCSIG(:), SPCDIR(:,:)
+            INTEGER, INTENT(INOUT), CONTIGUOUS :: BFILED(:)
+            INTEGER, INTENT(IN), CONTIGUOUS :: BSPLOC(:)
+            REAL, INTENT(IN), CONTIGUOUS :: BSPDIR(:), BSPFRQ(:)
+            REAL, INTENT(INOUT), CONTIGUOUS :: BSPECS(:,:,:,:)
+            INTEGER, INTENT(IN) :: XYTST(*)
+         END SUBROUTINE RBFILE
       END INTERFACE
 !
 !  9. Subroutines and functions calling

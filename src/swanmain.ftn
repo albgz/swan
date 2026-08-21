@@ -7580,23 +7580,21 @@
 !             (*,6); sine^2 of spectral directions                        30.82
 ! i   SPCSIG: Relative frequencies in computational domain in sigma-space 30.82
 !
-      REAL,   INTENT(IN)     ::  SPCDIR(MDC,6)                            30.82
-      REAL,   INTENT(IN)     ::  SPCSIG(MSC)                              30.82
-      REAL,   INTENT(INOUT)  ::  BSPECS(MDC,MSC,NBSPEC,2)
+      REAL, INTENT(IN), CONTIGUOUS :: SPCDIR(:,:), SPCSIG(:)
+      REAL, INTENT(INOUT), CONTIGUOUS :: BSPECS(:,:,:,:)
 !
 !     BSPDIR: Spectral directions of input spectrum
 !     BSPFRQ: Spectral frequencies of input spectrum
 !
-      REAL   , INTENT(INOUT)  :: BSPDIR(*)
-      REAL   , INTENT(INOUT)  :: BSPFRQ(*)
+      REAL, INTENT(IN), CONTIGUOUS :: BSPDIR(:), BSPFRQ(:)
 !
 !     BFILED  data concerning boundary condition files
 !     BSPLOC  place in array BSPECS where to store interpolated spectra
 !     XYTST   test points
 !
-      INTEGER, INTENT(INOUT)  ::  BFILED(*)
-      INTEGER, INTENT(INOUT)  ::  BSPLOC(*)
-      INTEGER, INTENT(IN)     ::  XYTST(*)
+      INTEGER, INTENT(INOUT), CONTIGUOUS :: BFILED(:)
+      INTEGER, INTENT(IN), CONTIGUOUS :: BSPLOC(:)
+      INTEGER, INTENT(IN) :: XYTST(*)
 !
 !  5. Parameter variables
 !
@@ -7965,7 +7963,7 @@
               IF (ITEST.GE.60) WRITE (PRTEST, *) ' TPAR boundary ',
      &              TIMF2, (SPPARM(JJ), JJ=1,4)
               BFILED(3) = NINT(TIMF2)
-              CALL SSHAPE (BSPECS(1,1,IBSPEC,2), SPCSIG, SPCDIR,
+              CALL SSHAPE (BSPECS(:,:,IBSPEC,2), SPCSIG, SPCDIR,
      &                 FSHAPE, DSHAPE)
             ELSE
 !         other (spectral) boundary conditions
@@ -7975,7 +7973,8 @@
 !         call RESPEC subroutine to read the spectum of the bound. files
 !
              CALL RESPEC (BTYPE, NDSD, BFILED, UNFORM, DORDER,            40.00
-     &           SPCSIG, SPCDIR, BSPFRQ, BSPDIR, BSPECS(1,1,IBSPEC,2),    40.31 30.90
+     &           SPCSIG, SPCDIR, BSPFRQ, BSPDIR,
+     &           BSPECS(:,:,IBSPEC,2),                                   40.31 30.90
      &           UFAC, IERR)
              IF (IERR.EQ.9) GOTO 380
             ENDIF
@@ -8060,13 +8059,13 @@
 !       interpolate spectra in time; result has to be store in BSPECS(..,1)
 !       first interpolate to auxiliary array
 !
-            CALL SINTRP (W1, 1.-W1, BSPECS(1,1,IBSPEC,1),
-     &               BSPECS(1,1,IBSPEC,2), SPAUX,                         40.31 30.90
+            CALL SINTRP (W1, 1.-W1, BSPECS(:,:,IBSPEC,1),
+     &               BSPECS(:,:,IBSPEC,2), SPAUX,                         40.31 30.90
      &               SPCDIR, SPCSIG)
 !       use SINTRP to copy contents of aux. array to BSPECS(..,1)
 !
             CALL SINTRP (1., 0., SPAUX,                                   40.31 30.90
-     &               BSPECS(1,1,IBSPEC,2), BSPECS(1,1,IBSPEC,1),
+     &               BSPECS(:,:,IBSPEC,2), BSPECS(:,:,IBSPEC,1),
      &               SPCDIR, SPCSIG)
           ENDDO
           BFILED(2) = NINT(TIMCO)
