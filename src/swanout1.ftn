@@ -1228,21 +1228,25 @@
 !
 !  4. Argument variables
 !
-      INTEGER OPI(2)                                                      40.31
+      CHARACTER(LEN=1), INTENT(IN) :: PSTYPE
+      INTEGER, INTENT(IN) :: MIP, OPI(2)
+      REAL, INTENT(IN) :: OPR(5)
+      REAL, INTENT(IN), CONTIGUOUS :: X(:), Y(:)
+      REAL, INTENT(OUT) :: XP(MIP), YP(MIP), XC(*), YC(*)
+      INTEGER, INTENT(IN), CONTIGUOUS :: KGRPNT(:,:)
+      REAL, INTENT(IN), CONTIGUOUS :: XCGRID(:,:), YCGRID(:,:)
+      LOGICAL, INTENT(IN) :: CROSS(4,MIP)
 !
 !     XCGRID: input  Coordinates of computational grid in x-direction     30.72
 !     YCGRID: input  Coordinates of computational grid in y-direction     30.72
-!
-      REAL    XCGRID(MXC,MYC),    YCGRID(MXC,MYC)                         30.72
-      REAL    OPR(5), X(MIP), Y(MIP)                                      40.31
 !
 !     PSTYPE  Char   input    type of output point set
 !     MIP     Int    input    number of output points
 !     XP, YP  real   outp     user coordinates of output point
 !     XC, YC  real   outp     comp. grid coordinates
 !
-      LOGICAL CROSS(4,MIP) ! true if obstacle is between output point     40.86
-                           ! and computational grid point                 40.86
+!     CROSS is true if an obstacle is between an output point
+!     and a computational grid point
 !
 !  8. Subroutines used
 !
@@ -1258,9 +1262,6 @@
 !
 ! 13. Source text
 !
-      REAL       XC(*), YC(*), XP(MIP), YP(MIP)                           40.31
-      CHARACTER  PSTYPE *1
-      INTEGER     KGRPNT(MXC,MYC)                                         30.21
       INTEGER   ITMP1, ITMP2, ITMP3, ITMP4, ITMP5, ITMP6
       REAL      RTMP1, RTMP2, RTMP3, RTMP4
 !

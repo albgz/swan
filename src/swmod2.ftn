@@ -256,7 +256,8 @@
          INTEGER               :: OPI(2)                     ! integer coefficients
          REAL                  :: OPR(5)                     ! real coefficients
          INTEGER               :: MIP                        ! number of points
-         REAL, POINTER         :: XP(:), YP(:), XQ(:), YQ(:) ! point coordinates
+         REAL, POINTER, CONTIGUOUS :: XP(:), YP(:) ! point coordinates
+         REAL, POINTER             :: XQ(:), YQ(:)
          TYPE(OPSDAT), POINTER :: NEXTOPS
       END TYPE OPSDAT
 
@@ -282,6 +283,21 @@
       INTERFACE DELETE
         MODULE PROCEDURE DELETEOPS
         MODULE PROCEDURE DELETEORQ
+      END INTERFACE
+!
+      INTERFACE
+        SUBROUTINE SWOEXC ( PSTYPE, OPI, OPR, X, Y, MIP, XP, YP,
+     &                      XC, YC, KGRPNT, XCGRID, YCGRID, CROSS )
+          IMPLICIT NONE
+          CHARACTER(LEN=1), INTENT(IN) :: PSTYPE
+          INTEGER, INTENT(IN) :: MIP, OPI(2)
+          REAL, INTENT(IN) :: OPR(5)
+          REAL, INTENT(IN), CONTIGUOUS :: X(:), Y(:)
+          REAL, INTENT(OUT) :: XP(MIP), YP(MIP), XC(*), YC(*)
+          INTEGER, INTENT(IN), CONTIGUOUS :: KGRPNT(:,:)
+          REAL, INTENT(IN), CONTIGUOUS :: XCGRID(:,:), YCGRID(:,:)
+          LOGICAL, INTENT(IN) :: CROSS(4,MIP)
+        END SUBROUTINE SWOEXC
       END INTERFACE
 !
 !  9. Subroutines and functions calling
