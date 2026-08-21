@@ -2485,6 +2485,7 @@
       USE SwanGriddata                                                    40.80
       USE SwanGridobjects                                                 40.80
       USE SwanCompdata                                                    40.80
+       USE SWCOMM4, ONLY: READXY                                              41.90
 !METIS      USE SwanParallel                                                    43.01
 !
       IMPLICIT NONE                                                       43.01

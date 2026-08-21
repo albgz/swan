@@ -22,6 +22,20 @@
 !
 !****************************************************************
 !                                                               *
+!--------------------------------------------------------------------
+!  Module OCPREAD2: explicit interface for the LEESEL line-selection
+!  helper (no arguments). Placed before the OCP reader subroutines
+!  that call it.
+!--------------------------------------------------------------------
+       MODULE OCPREAD2
+       IMPLICIT NONE
+       INTERFACE
+!
+          SUBROUTINE LEESEL
+          END SUBROUTINE LEESEL
+!
+       END INTERFACE
+       END MODULE OCPREAD2
       SUBROUTINE RDINIT
 !                                                               *
 !****************************************************************
@@ -116,6 +130,7 @@
       USE OCPCOMM2                                                        40.41
       USE OCPCOMM3                                                        40.41
       USE OCPCOMM4                                                        40.41
+       USE OCPREAD2, ONLY: LEESEL                                             41.90
 !
       IMPLICIT NONE
 !
@@ -224,6 +239,7 @@
       USE OCPCOMM2                                                        40.41
       USE OCPCOMM3                                                        40.41
       USE OCPCOMM4, ONLY: ITEST, MSGERR, PRINTF, STRACE                   40.41
+       USE OCPREAD2, ONLY: LEESEL                                             41.90
 !
       IMPLICIT NONE
 !
@@ -371,6 +387,7 @@
       USE OCPCOMM2                                                        40.41
       USE OCPCOMM3                                                        40.41
       USE OCPCOMM4, ONLY: STRACE                                          40.41
+       USE OCPREAD2, ONLY: LEESEL                                             41.90
 !
       IMPLICIT NONE
 !
@@ -494,6 +511,7 @@
       USE OCPCOMM2                                                        40.41
       USE OCPCOMM3                                                        40.41
       USE OCPCOMM4                                                        40.41
+       USE OCPREAD2, ONLY: LEESEL                                             41.90
 !
       IMPLICIT NONE
 !
@@ -687,6 +705,7 @@
       USE OCPCOMM2                                                        40.41
       USE OCPCOMM3                                                        40.41
       USE OCPCOMM4, ONLY: FOR, ITEST, MSGERR, PRINTF, STRACE              40.41
+       USE OCPREAD2, ONLY: LEESEL                                             41.90
 !
       IMPLICIT NONE
 !
@@ -847,6 +866,7 @@
       USE OCPCOMM2                                                        40.41
       USE OCPCOMM3                                                        40.41
       USE OCPCOMM4, ONLY: FOR, ITEST, MSGERR, PRINTF, STRACE              40.41
+       USE OCPREAD2, ONLY: LEESEL                                             41.90
 !
       IMPLICIT NONE
 !
@@ -1041,6 +1061,7 @@
       USE OCPCOMM2                                                        40.41
       USE OCPCOMM3                                                        40.41
       USE OCPCOMM4                                                        40.41
+       USE OCPREAD2, ONLY: LEESEL                                             41.90
 !
       IMPLICIT NONE
 !

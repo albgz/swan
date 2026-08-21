@@ -3009,6 +3009,13 @@
            REAL X ( MIP ), Y ( MIP )
          END SUBROUTINE SWANINTERPOLATEOUTPUT
 !
+!
+!  READXY (swanser.ftn): read x/y coordinate values (old-style F77).
+!
+         SUBROUTINE READXY (NAMX, NAMY, XX, YY, KONT, XSTA, YSTA)
+           CHARACTER NAMX ( * ), NAMY ( * ), KONT ( * )
+           REAL XX, YY, XSTA, YSTA
+         END SUBROUTINE READXY
       END INTERFACE
 !
 !   Source text
