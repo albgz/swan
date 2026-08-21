@@ -16,25 +16,27 @@ $coh = "FALSE";
 $met = "FALSE";
 $ncf = "FALSE";
 $mv4 = "FALSE";
-while ( $ARGV[0]=~/-.*/ )
+while (@ARGV && $ARGV[0] =~ /^-/)
    {
-   if ($ARGV[0]=~/-esmf/) {$esmf="TRUE";shift;}
-   if ($ARGV[0]=~/-timg/) {$tim="TRUE";shift;}
-   if ($ARGV[0]=~/-jac/) {$jac="TRUE";shift;}
-   if ($ARGV[0]=~/-fixfront/) {$ffro="TRUE";shift;}
-   if ($ARGV[0]=~/-mpi/) {$mpi="TRUE";shift;}
-   if ($ARGV[0]=~/-f95/) {$f95="TRUE";shift;}
-   if ($ARGV[0]=~/-dos/) {$dos="TRUE";shift;}
-   if ($ARGV[0]=~/-unix/) {$unx="TRUE";shift;}
-   if ($ARGV[0]=~/-cray/) {$cry="TRUE";shift;}
-   if ($ARGV[0]=~/-sgi/) {$sgi="TRUE";shift;}
-   if ($ARGV[0]=~/-impi/) {$imp="TRUE";shift;}
-   if ($ARGV[0]=~/-cvis/) {$cvi="TRUE";shift;}
-   if ($ARGV[0]=~/-adcirc/) {$adc="TRUE";shift;}
-   if ($ARGV[0]=~/-coh/) {$coh="TRUE";shift;}
-   if ($ARGV[0]=~/-metis/) {$met="TRUE";shift;}
-   if ($ARGV[0]=~/-netcdf/) {$ncf="TRUE";shift;}
-   if ($ARGV[0]=~/-matl4/) {$mv4="TRUE";shift;}
+   $option = shift;
+   if    ($option eq "-esmf")   {$esmf="TRUE";}
+   elsif ($option eq "-timg")   {$tim="TRUE";}
+   elsif ($option eq "-jac")    {$jac="TRUE";}
+   elsif ($option eq "-fixfront") {$ffro="TRUE";}
+   elsif ($option eq "-mpi")    {$mpi="TRUE";}
+   elsif ($option eq "-f95")    {$f95="TRUE";}
+   elsif ($option eq "-dos")    {$dos="TRUE";}
+   elsif ($option eq "-unix")   {$unx="TRUE";}
+   elsif ($option eq "-cray")   {$cry="TRUE";}
+   elsif ($option eq "-sgi")    {$sgi="TRUE";}
+   elsif ($option eq "-impi")   {$imp="TRUE";}
+   elsif ($option eq "-cvis")   {$cvi="TRUE";}
+   elsif ($option eq "-adcirc") {$adc="TRUE";}
+   elsif ($option eq "-coh")    {$coh="TRUE";}
+   elsif ($option eq "-metis")  {$met="TRUE";}
+   elsif ($option eq "-netcdf") {$ncf="TRUE";}
+   elsif ($option eq "-matl4")  {$mv4="TRUE";}
+   else { die "$0: unsupported option $option\n"; }
    }
 
 # --- trap unsupported switch combinations
@@ -49,8 +51,12 @@ if ($esmf=~/TRUE/ && $met=~/TRUE/)
 
 # --- make a list of all files
 @files = ();
-foreach (@ARGV) {
-   @files = (@files , glob );
+foreach $pattern (@ARGV) {
+   if (-e $pattern) {
+      push @files, $pattern;
+   } else {
+      push @files, glob($pattern);
+   }
 }
 
 # --- change each file if necessary
@@ -59,23 +65,23 @@ foreach $file (@files)
 # --- set output file name
   if ($unx=~/TRUE/)
   {
-    ($tempf)=split(/.ftn/, $file);
-    $ext = ($file =~ m/ftn90/) ? "f90" : "f";
-    $outfile = join(".",$tempf,$ext);
+    $outfile = $file;
+    $outfile =~ s/\.ftn90$/.f90/;
+    $outfile =~ s/\.ftn$/.f/;
   }
   else
   {
-    ($tempf)=split(/.ftn/, $file);
-    $ext = ($file =~ m/ftn90/) ? "f90" : "for";
-    $outfile = join(".",$tempf,$ext);
+    $outfile = $file;
+    $outfile =~ s/\.ftn90$/.f90/;
+    $outfile =~ s/\.ftn$/.for/;
   }
 # --- process file
   if (   (! -e $outfile)            #outfile doesn't exist
       || (-M $file < -M $outfile) ) #.ftn file recently modified
   {
-    open file or die "can't open $file\n";
-    open(OUTFILE,">".$outfile);
-    while ($line=<file>)
+    open(INPUT, "<", $file) or die "can't open $file: $!\n";
+    open(OUTPUT, ">", $outfile) or die "can't open $outfile: $!\n";
+    while ($line=<INPUT>)
     {
       $newline=$line;
       # ESMF must be processed first
@@ -103,9 +109,9 @@ foreach $file (@files)
       if ($ncf=~/FALSE/){$newline=~s/^!NNCF//;}
       if ($mv4=~/TRUE/) {$newline=~s/^!MatL4//;}
       if ($mv4=~/FALSE/) {$newline=~s/^!MatL5//;}
-      print OUTFILE $newline;
+      print OUTPUT $newline;
     }
-    close file;
-    close(OUTFILE);
+    close(INPUT) or die "can't close $file: $!\n";
+    close(OUTPUT) or die "can't close $outfile: $!\n";
   }
 }
