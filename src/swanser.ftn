@@ -3023,7 +3023,6 @@
 !     TCROSS           searches for crossing point if exist               40.14
 !
       REAL    DEGCNV                                                      42.06
-      REAL    GAMMAF                                                      42.06
       LOGICAL TCROSS                                                      40.14
 !
 !  9. Subroutines calling

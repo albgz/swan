@@ -8256,7 +8256,6 @@
 !  8. Subroutines used
 !
 !       GAMMAF (in SWANSER)
-      REAL :: GAMMAF                                                      40.03
 !
 !  9. Subroutines calling
 !

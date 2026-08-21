@@ -286,6 +286,15 @@
 !
 ! 13. Source text
 !
+!
+!  SWSYNC (swanparll.ftn): synchronous parallel barrier (no arguments).
+!
+       INTERFACE
+!
+         SUBROUTINE SWSYNC
+         END SUBROUTINE SWSYNC
+!
+       END INTERFACE
       END MODULE OCPCOMM2
 
       MODULE OCPCOMM3
@@ -2838,6 +2847,17 @@
            REAL ARRINP ( * ), XP, YP
          END FUNCTION SVALQI
 !
+!
+!  NWLINE (ocpcre.ftn): advance to next input line (no arguments).
+!
+         SUBROUTINE NWLINE
+         END SUBROUTINE NWLINE
+!
+!  GAMMAF (swanser.ftn): regularized gamma function (single REAL argument).
+!
+         REAL FUNCTION GAMMAF (XX)
+           REAL XX
+         END FUNCTION GAMMAF
       END INTERFACE
 !
       END MODULE SWCOMM3
