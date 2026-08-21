@@ -2856,6 +2856,11 @@
       LOGICAL TESTFL
 !$OMP THREADPRIVATE(IPTST,TESTFL)
 !
+!     *** stationary intrinsic-dispersion cache ***
+!
+      REAL, ALLOCATABLE :: KWAVE_CACHE(:,:), CGO_CACHE(:,:)
+      LOGICAL :: KCGCACHE_ACTIVE = .FALSE.
+!
 !     *** higher order propagation and spherical coordinates ***
 !
 ! KREPTX [     0] if >0, the domain repeats itself in x-direction (primarily intended for

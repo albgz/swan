@@ -812,11 +812,13 @@
 !
       INTEGER :: ITER  ,IX    ,IY    ,IS    ,IT                           30.72
       INTEGER :: IP, IDC, ISC                                             40.31
+      INTEGER :: IKCG
       INTEGER :: KSX   ,KSY   ,SWPDIR
       INTEGER :: INOCNV                                                   30.72
       INTEGER :: INOCNT                                                   40.31
 !
       REAL ::  DDX   ,DDY   ,ACCUR ,XIS   ,SNLC1 ,DAL1  ,DAL2  ,DAL3      30.74
+      REAL ::  NKCG(MSC), NDKCG(MSC)
 !
       LOGICAL :: PRECOR
 !
@@ -1162,6 +1164,36 @@
 !----------------------------------------------------------------------   40.31
 !TIMG
 !TIMG      CALL SWTSTO(101)                                                    40.23
+
+!     Cache intrinsic wavenumber and group velocity only when their complete
+!     identity is immutable for this SWCOMP invocation. Unsupported modes and
+!     allocation failure retain the original per-stencil KSCIP1 path.
+      KCGCACHE_ACTIVE = .FALSE.
+      IF (ALLOCATED(KWAVE_CACHE)) DEALLOCATE(KWAVE_CACHE)
+      IF (ALLOCATED(CGO_CACHE)) DEALLOCATE(CGO_CACHE)
+      IF ( NSTATC.EQ.0 .AND. ICUR.EQ.0 .AND. IMUD.EQ.0 .AND.
+     &     .NOT.VARMUD .AND. .NOT.DYNDEP .AND. LSETUP.EQ.0 .AND.
+     &     .NOT.LTRACE .AND. .NOT.PARLL ) THEN
+         ISTAT = 0
+         ALLOCATE(KWAVE_CACHE(MSC,MCGRD), CGO_CACHE(MSC,MCGRD),
+     &            STAT=ISTAT)
+         IF (ISTAT.EQ.0) THEN
+            DO IKCG = 1, MCGRD
+               IF (COMPDA(IKCG,JDP2).LE.DEPMIN) THEN
+                  KWAVE_CACHE(:,IKCG) = -1.
+                  CGO_CACHE(:,IKCG) = 0.
+               ELSE
+                  CALL KSCIP1(MSC, SPCSIG, COMPDA(IKCG,JDP2),
+     &                        KWAVE_CACHE(1,IKCG), CGO_CACHE(1,IKCG),
+     &                        NKCG, NDKCG)
+               ENDIF
+            ENDDO
+            KCGCACHE_ACTIVE = .TRUE.
+         ELSE
+            IF (ALLOCATED(KWAVE_CACHE)) DEALLOCATE(KWAVE_CACHE)
+            IF (ALLOCATED(CGO_CACHE)) DEALLOCATE(CGO_CACHE)
+         ENDIF
+      ENDIF
 
 !----------------------------------------------------------------------   40.22
 !     Begin parallel region.                                              40.22
@@ -2415,6 +2447,10 @@
 !     End parallel region.                                                40.22
 !----------------------------------------------------------------------   40.22
 !$OMP END PARALLEL                                                        40.22
+!
+      KCGCACHE_ACTIVE = .FALSE.
+      IF (ALLOCATED(KWAVE_CACHE)) DEALLOCATE(KWAVE_CACHE)
+      IF (ALLOCATED(CGO_CACHE)) DEALLOCATE(CGO_CACHE)
 !
 !     Print message when the solver did not converge in setup calculation
 !

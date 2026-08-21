@@ -4808,9 +4808,15 @@
              DMW(IS,IC)   = 0.                                            40.59
  50       CONTINUE
         ELSE
-!       *** call KSCIP1 to compute KWAVE and CGO ***
-          CALL KSCIP1 (MSC, SPCSIG, DEPLOC, KWAVE(1,IC) ,                 40.41
-     &                 CGO(1,IC), N, ND)                                  40.41
+!       *** obtain KWAVE and CGO from the immutable full-grid cache, or ***
+!       *** retain the original KSCIP1 path for unsupported modes       ***
+          IF (KCGCACHE_ACTIVE) THEN
+             KWAVE(:,IC) = KWAVE_CACHE(:,INDX)
+             CGO(:,IC)   = CGO_CACHE(:,INDX)
+          ELSE
+             CALL KSCIP1 (MSC, SPCSIG, DEPLOC, KWAVE(1,IC) ,              40.41
+     &                    CGO(1,IC), N, ND)                               40.41
+          ENDIF
           IF (IMUD.EQ.1) THEN                                             40.59
 !         *** call KSCIP2 to compute KWAVE, CGO and DMW ***
              CALL KSCIP2 (MSC, SPCSIG, DEPLOC, KWAVE(1,IC) ,              40.59
