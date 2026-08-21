@@ -566,6 +566,27 @@
           CALL SWSYNC                                                     40.30
           IF (STPNOW()) RETURN                                            40.30
 
+!         --- guarantee the optional input fields are allocated so that
+!             SNEXTI never receives an unallocated actual. Fields that are
+!             not read stay allocated(0); their read sites are guarded by
+!             the corresponding input-file flag (IFLDYN).
+
+          IF (.NOT.ALLOCATED(WLEVL )) ALLOCATE(WLEVL (0))                 40.31
+          IF (.NOT.ALLOCATED(FRIC  )) ALLOCATE(FRIC  (0))                 40.31
+          IF (.NOT.ALLOCATED(UXB   )) ALLOCATE(UXB   (0))                 40.31
+          IF (.NOT.ALLOCATED(UYB   )) ALLOCATE(UYB   (0))                 40.31
+          IF (.NOT.ALLOCATED(NPLAF )) ALLOCATE(NPLAF (0))                 40.35
+          IF (.NOT.ALLOCATED(TURBF )) ALLOCATE(TURBF (0))                 40.55
+          IF (.NOT.ALLOCATED(MUDLF )) ALLOCATE(MUDLF (0))                 40.59
+          IF (.NOT.ALLOCATED(WXI   )) ALLOCATE(WXI   (0))                 40.31
+          IF (.NOT.ALLOCATED(WYI   )) ALLOCATE(WYI   (0))                 40.31
+          IF (.NOT.ALLOCATED(AICEF )) ALLOCATE(AICEF (0))                 41.75
+          IF (.NOT.ALLOCATED(HICEF )) ALLOCATE(HICEF (0))                 41.75
+          IF (.NOT.ALLOCATED(HSSF  )) ALLOCATE(HSSF  (0))                 42.06
+          IF (.NOT.ALLOCATED(TSSF  )) ALLOCATE(TSSF  (0))                 41.82
+          IF (.NOT.ALLOCATED(DSSF  )) ALLOCATE(DSSF  (0))                 41.75
+          IF (.NOT.ALLOCATED(XYTST )) ALLOCATE(XYTST (0))                 40.31
+
 !         --- loop over time steps                                        40.00
 
           DO 500 IT = IT0, MTC                                            40.00
