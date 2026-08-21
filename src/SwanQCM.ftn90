@@ -781,7 +781,7 @@ subroutine SWQCDFT ( sigft, cgft, dep2, kwave, cgo, cft, rft, sft, wft, wsave )
     real                           :: k        ! wave number
     real                           :: sig      ! relative frequency within coherent zone
     real                           :: sigp     ! relative frequency at current grid point
-    real                           :: SVALQI   ! function giving interpolated value of an input array
+    ! function giving interpolated value of an input array
     real                           :: x        ! x-coordinate of point in coherent region
     real                           :: xp       ! x-coordinate of computational grid point
     real                           :: y        ! y-coordinate of point in coherent region
@@ -1017,7 +1017,7 @@ subroutine SWQCUFT ( uxft, uyft, dep2, ux2, uy2, cft, rft, sft, wft, wsave )
     real                           :: cgmx     ! max Froude number times wave celerity
     real                           :: dp       ! local depth
     real                           :: fac      ! auxiliary factor
-    real                           :: SVALQI   ! function giving interpolated value of an input array
+    ! function giving interpolated value of an input array
     real                           :: u        ! u-component of ambient current within coherent zone obtained from input grid
     real                           :: uu       ! u-component of ambient current w.r.t. user coordinates
     real                           :: uxp      ! u-component of ambient current at current grid point

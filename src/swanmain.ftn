@@ -8705,7 +8705,6 @@
 !     IY         index in y-dir of comput grid point
 !     JVERT      global index of unstructured mesh
 !
-      REAL       SVALQI
 !     SVALQI     real function giving interpolated value of an input array
 !
       REAL       XP, YP, UU, VV, VTOT, W1, W3,

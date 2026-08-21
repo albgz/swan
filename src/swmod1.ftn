@@ -2829,6 +2829,17 @@
 !
 ! 13. Source text
 !
+!   Explicit interfaces
+!
+      INTERFACE
+!
+         REAL FUNCTION SVALQI ( XP, YP, IGRID, ARRINP, ZERO, IXC, IYC )
+           INTEGER IGRID, IXC, IYC, ZERO
+           REAL ARRINP ( * ), XP, YP
+         END FUNCTION SVALQI
+!
+      END INTERFACE
+!
       END MODULE SWCOMM3
 
       MODULE SWCOMM4
