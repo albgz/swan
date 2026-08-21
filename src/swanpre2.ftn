@@ -2353,6 +2353,7 @@
 !************************************************************************
 !
       USE SWCOMM1                                                         40.41
+      USE OCPCOMM4, ONLY: INKEYW, STRACE, WRNKEY                        40.41
 !
 !
 !   --|-----------------------------------------------------------|--
@@ -3992,7 +3993,6 @@
 !       Ocean Pack command reading routines
 !       SWBCPT : boundary points interpolation
 !
-      LOGICAL EQCSTR                                                      40.03
 !
 !  9. Subroutines calling
 !

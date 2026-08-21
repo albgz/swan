@@ -6118,7 +6118,6 @@
 !
 !  8. Subroutines used
 !
-      LOGICAL :: EQCSTR                                                   40.03
 !
 ! 13. Source text
 !

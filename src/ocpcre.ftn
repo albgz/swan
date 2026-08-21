@@ -1896,7 +1896,7 @@
       USE OCPCOMM1                                                        40.41
       USE OCPCOMM2                                                        40.41
       USE OCPCOMM3                                                        40.41
-      USE OCPCOMM4                                                        40.41
+      USE OCPCOMM4, ONLY: INPUTF, ITEST, PRINTF, STRACE                 40.41
 !
       IMPLICIT NONE
 !
@@ -2208,7 +2208,7 @@
       USE OCPCOMM1                                                        40.41
       USE OCPCOMM2                                                        40.41
       USE OCPCOMM3                                                        40.41
-      USE OCPCOMM4                                                        40.41
+      USE OCPCOMM4, ONLY: STRACE                                        40.41
 !
       IMPLICIT NONE
 !
@@ -2430,7 +2430,7 @@
       USE OCPCOMM1                                                        40.41
       USE OCPCOMM2                                                        40.41
       USE OCPCOMM3                                                        40.41
-      USE OCPCOMM4                                                        40.41
+      USE OCPCOMM4, ONLY: MSGERR, STRACE                                40.41
 !
       IMPLICIT NONE
 !
