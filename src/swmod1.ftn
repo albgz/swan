@@ -2979,7 +2979,23 @@
 !
 !     ---
 !
-! 13. Source text
+!   Explicit interfaces
+!
+      INTERFACE
+!
+         SUBROUTINE SWANINTERPOLATEOUTPUT ( FOUTP, X, Y, FINP,
+     &                                     MIP, KVERT, EXCVAL )
+           INTEGER MIP
+           INTEGER KVERT ( MIP )
+           REAL EXCVAL
+           REAL FINP ( * )
+           REAL FOUTP ( MIP )
+           REAL X ( MIP ), Y ( MIP )
+         END SUBROUTINE SWANINTERPOLATEOUTPUT
+!
+      END INTERFACE
+!
+!   Source text
 !
       END MODULE SWCOMM4
 
