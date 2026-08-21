@@ -558,6 +558,20 @@
         IDCLOW  = 0
         IDCHGH  = 0
         IDSUM   = 0
+!
+!       No-current directional sectors are frequency independent. Reuse
+!       the first-frequency classification instead of recomputing it.
+!
+        IF ( ICUR .EQ. 0 .AND. IS .GT. 1 ) THEN
+          DO ID = 1, MDC
+            ANYBIN(ID,IS) = ANYBIN(ID,1)
+          ENDDO
+          IDCMIN(IS) = IDCMIN(1)
+          IDCMAX(IS) = IDCMAX(1)
+          SECTOR(IS) = SECTOR(1)
+          IF ( SECTOR(IS) .GT. 0 ) ISSTOP = MAX(IS,ISSTOP)
+          GO TO 500
+        ENDIF
         DO ID = 1, MDC
           IF (IS .EQ. 1 .OR. ICUR .GT. 0) THEN
             CAXMID = CAX(ID,IS,1)*RDX(1) + CAY(ID,IS,1)*RDY(1)
