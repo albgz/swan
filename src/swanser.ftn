@@ -729,6 +729,49 @@
       END
 !***********************************************************************
 !                                                                      *
+      SUBROUTINE KSCIP1S (MMT, SIG, D, K, CG, N, ND)
+!                                                                      *
+!***********************************************************************
+!
+!     Scalar adapter for the single-frequency KSCIP1 case.
+!
+      IMPLICIT NONE
+
+      INTEGER MMT
+      REAL    SIG, D, K, CG, N, ND
+      REAL    SIGA(1), KA(1), CGA(1), NA(1), NDA(1)
+
+      SIGA(1) = SIG
+      CALL KSCIP1 (1, SIGA, D, KA, CGA, NA, NDA)
+      K  = KA(1)
+      CG = CGA(1)
+      N  = NA(1)
+      ND = NDA(1)
+
+      RETURN
+      END
+!***********************************************************************
+!                                                                      *
+      SUBROUTINE KSCIP1K (MMT, SIG, D, K, CG, N, ND)
+!                                                                      *
+!***********************************************************************
+!
+!     Adapter for a scalar wave number and array-valued scratch outputs.
+!
+      IMPLICIT NONE
+
+      INTEGER MMT
+      REAL    SIG, D, K, CG(MMT), N(MMT), ND(MMT)
+      REAL    SIGA(1), KA(1)
+
+      SIGA(1) = SIG
+      CALL KSCIP1 (1, SIGA, D, KA, CG, N, ND)
+      K = KA(1)
+
+      RETURN
+      END
+!***********************************************************************
+!                                                                      *
       SUBROUTINE KSCIP2 (MMT, SIG, D, K, CG, N, ND, DMW, DM)
 !                                                                      *
 !***********************************************************************
@@ -4078,7 +4121,7 @@
           ENDIF
           IF (LSHAPE.EQ.5) THEN
              DP = PSHAPE(3)
-             CALL KSCIP1 (1, SPCSIG(IS), DP, K, CG, N, ND)
+             CALL KSCIP1S (1, SPCSIG(IS), DP, K, CG, N, ND)
              RA = RA * (TANH(K*DP))**2 / (2.*N)
           ENDIF
           IF (SF .LT. FPK) THEN

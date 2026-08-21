@@ -3486,7 +3486,7 @@
 !                 --- compute the wave number of primary component
 !
                   IF ( DEPLOC.GT.DEPMIN ) THEN
-                     CALL KSCIP1 (1, SIG3, DEPLOC, K3, ARR, ARR, ARR)
+                     CALL KSCIP1K (1, SIG3, DEPLOC, K3, ARR, ARR, ARR)
                   ELSE
                      K3 = -1.
                   ENDIF
@@ -3561,7 +3561,7 @@
 !                 --- compute the wave number of primary component
 !
                   IF ( DEPLOC.GT.DEPMIN ) THEN
-                     CALL KSCIP1 (1, SIG3, DEPLOC, K3, ARR, ARR, ARR)
+                     CALL KSCIP1K (1, SIG3, DEPLOC, K3, ARR, ARR, ARR)
                   ELSE
                      K3 = -1.
                   ENDIF
@@ -5413,10 +5413,10 @@
       IF ( ISPK.GT.0 ) THEN
 !        first harmonic
          SIG1 = SPCSIG(ISPK)
-         CALL KSCIP1 (1, SIG1, DEP, K1, CG, N, ND)
+         CALL KSCIP1S (1, SIG1, DEP, K1, CG, N, ND)
 !        second harmonic
          SIG2 = 2.*SPCSIG(ISPK)
-         CALL KSCIP1 (1, SIG2, DEP, K2, CG, N, ND)
+         CALL KSCIP1S (1, SIG2, DEP, K2, CG, N, ND)
       ELSE
          K1 = 1.
          K2 = 2.*K1 + 1.E-8
@@ -5807,8 +5807,8 @@
             ENDDO
          ENDDO
          ! perform global reductions in parallel run
-         CALL SWREDUCE( K , 1, SWINT , SWSUM )
-         CALL SWREDUCE( KW, 1, SWREAL, SWSUM )
+         CALL SWREDUCI( K , 1, SWSUM )
+         CALL SWREDUCR( KW, 1, SWSUM )
          IF ( STPNOW() ) RETURN
       ENDIF
       IF (K.GE.1) THEN

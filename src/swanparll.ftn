@@ -457,7 +457,7 @@
 !
 !MPI      USE MPI
       USE OCPCOMM4                                                        40.41
-      USE M_PARALL                                                        40.31
+      USE M_PARALL, ONLY: PARLL, INODE
 !
       IMPLICIT NONE
 !
@@ -515,7 +515,8 @@
 !     ITAG        message type
 !     ITYPE       type of data
 !
-      INTEGER IPTR, ILEN, ITYPE, IDEST, ITAG
+      TYPE(*), DIMENSION(..) :: IPTR
+      INTEGER ILEN, ITYPE, IDEST, ITAG
 !
 !  5. Parameter variables
 !
@@ -590,7 +591,7 @@
 !
 !MPI      USE MPI
       USE OCPCOMM4                                                        40.41
-      USE M_PARALL                                                        40.31
+      USE M_PARALL, ONLY: PARLL, INODE
 !
       IMPLICIT NONE
 !
@@ -648,7 +649,8 @@
 !     ITAG        message type
 !     ITYPE       type of data
 !
-      INTEGER IPTR, ILEN, ITYPE, ISOURCE, ITAG
+      TYPE(*), DIMENSION(..) :: IPTR
+      INTEGER ILEN, ITYPE, ISOURCE, ITAG
 !
 !  5. Parameter variables
 !
@@ -729,7 +731,7 @@
 !
 !MPI      USE MPI
       USE OCPCOMM4                                                        40.41
-      USE M_PARALL                                                        40.31
+      USE M_PARALL, ONLY: PARLL, MASTER
 !
       IMPLICIT NONE
 !
@@ -785,7 +787,8 @@
 !     IPTR        pointer to first element of array to be sent
 !     ITYPE       type of data
 !
-      INTEGER IPTR, ILEN, ITYPE
+      TYPE(*), DIMENSION(..) :: IPTR
+      INTEGER ILEN, ITYPE
 !
 !  5. Parameter variables
 !
@@ -861,7 +864,8 @@
 !
 !MPI      USE MPI
       USE OCPCOMM4                                                        40.41
-      USE M_PARALL                                                        40.31
+      USE M_PARALL, ONLY: PARLL, IAMMASTER, NPROC, SWINT,
+     &                    MASTER
 !
       IMPLICIT NONE
 !
@@ -920,7 +924,8 @@
 !     IOPTR       pointer to first element of output array (global)
 !     ITYPE       type of data
 !
-      INTEGER IILEN, IIPTR, IOLEN, IOPTR, ITYPE
+      TYPE(*), DIMENSION(..) :: IIPTR, IOPTR
+      INTEGER IILEN, IOLEN, ITYPE
 !
 !  5. Parameter variables
 !
@@ -1049,8 +1054,9 @@
 !
 !****************************************************************
 !
+!MPI      USE MPI
       USE OCPCOMM4                                                        40.41
-      USE M_PARALL                                                        40.31
+      USE M_PARALL, ONLY: PARLL
 !
       IMPLICIT NONE
 !
@@ -1107,7 +1113,8 @@
 !     ITYPE       type of data
 !     ITYPRD      type of reduction
 !
-      INTEGER IPTR, ILEN, ITYPE, ITYPRD
+      TYPE(*), DIMENSION(..) :: IPTR
+      INTEGER ILEN, ITYPE, ITYPRD
 !
 !  5. Parameter variables
 !
@@ -1117,7 +1124,9 @@
 !
 !     IENT  :     number of entries
 !
-      INTEGER IENT
+      INTEGER IENT, IERR, IF, IL
+      CHARACTER*20 INTSTR, CHARS
+      CHARACTER*80 MSGSTR
 !
 !  8. Subroutines used
 !
@@ -1148,12 +1157,16 @@
 !     --- if not parallel, return
       IF (.NOT.PARLL) RETURN
 !
-!     --- actual reduction of field array based on its type
-      IF ( ITYPE.EQ.SWINT ) THEN
-         CALL SWREDUCI ( IPTR, ILEN, ITYPRD )
-      ELSE IF ( ITYPE.EQ.SWREAL ) THEN
-         CALL SWREDUCR ( IPTR, ILEN, ITYPRD )
-      END IF
+!MPI!NCOH      CALL MPI_ALLREDUCE ( MPI_IN_PLACE, IPTR, ILEN, ITYPE,
+!MPI!NCOH     &                     ITYPRD, MPI_COMM_WORLD, IERR )
+!MPI      IF ( IERR.NE.MPI_SUCCESS ) THEN
+!MPI         CHARS = INTSTR(IERR)
+!MPI         CALL TXPBLA(CHARS,IF,IL)
+!MPI         MSGSTR = 'MPI produces some internal error - '//
+!MPI     &            'return code is '//CHARS(IF:IL)
+!MPI         CALL MSGERR ( 4, MSGSTR )
+!MPI         RETURN
+!MPI      END IF
 
       RETURN
       END

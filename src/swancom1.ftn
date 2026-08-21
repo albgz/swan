@@ -2030,7 +2030,7 @@
 !TIMG                CALL SWTSTA(104)                                          40.23
                 CALL SWOMPU (SWPDIR,KSX              ,KSY              ,
      &            IX               ,IY               ,DDX              ,
-     &            DDY              ,DT               ,SNLC1            ,
+     &            DDY              ,REAL(DT)         ,SNLC1            ,
      &            DAL1             ,DAL2             ,DAL3             ,
      &            XIS              ,SWTSDA           ,INOCNT           ,  40.31
      &            AC2              ,COMPDA           ,SPCDIR           ,

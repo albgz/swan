@@ -1551,7 +1551,7 @@ subroutine c1fm1b ( n, inc, c, ch, wa, fnf, fac )
 !
   implicit none
 
-  complex ( kind = 8 ) c(*)
+  real ( kind = 8 ) c(*)
   real ( kind = 8 ) ch(*)
   real ( kind = 8 ) fac(*)
   real ( kind = 8 ) fnf
@@ -1570,7 +1570,7 @@ subroutine c1fm1b ( n, inc, c, ch, wa, fnf, fac )
   integer ( kind = 4 ) nf
   real ( kind = 8 ) wa(*)
 
-      inc2 = inc+inc
+  inc2 = inc+inc
       nf = int ( fnf )
       na = 0
       l1 = 1
@@ -1646,7 +1646,7 @@ subroutine c1fm1f ( n, inc, c, ch, wa, fnf, fac )
 !
   implicit none
 
-  complex ( kind = 8 ) c(*)
+  real ( kind = 8 ) c(*)
   real ( kind = 8 ) ch(*)
   real ( kind = 8 ) fac(*)
   real ( kind = 8 ) fnf
@@ -1665,7 +1665,7 @@ subroutine c1fm1f ( n, inc, c, ch, wa, fnf, fac )
   integer ( kind = 4 ) nf
   real ( kind = 8 ) wa(*)
 
-      inc2 = inc+inc
+  inc2 = inc+inc
       nf = int ( fnf )
       na = 0
       l1 = 1
@@ -1786,11 +1786,21 @@ subroutine cfft1b ( n, inc, c, lenc, wsave, lensav, work, lenwrk, ier )
 !
   implicit none
 
+  interface
+    subroutine c1fm1b ( n, inc, c, ch, wa, fnf, fac )
+      integer ( kind = 4 ) n, inc
+      real ( kind = 8 ) c(*)
+      real ( kind = 8 ) ch(*), wa(*), fnf, fac(*)
+    end subroutine c1fm1b
+  end interface
+
+
   integer ( kind = 4 ) lenc
   integer ( kind = 4 ) lensav
   integer ( kind = 4 ) lenwrk
 
   complex ( kind = 8 ) c(lenc)
+  real ( kind = 8 ), allocatable :: c_storage(:)
   integer ( kind = 4 ) ier
   integer ( kind = 4 ) inc
   integer ( kind = 4 ) iw1
@@ -1818,7 +1828,12 @@ subroutine cfft1b ( n, inc, c, lenc, wsave, lensav, work, lenwrk, ier )
 
   iw1 = n + n + 1
 
-  call c1fm1b ( n, inc, c, work, wsave, wsave(iw1), wsave(iw1+1) )
+  allocate ( c_storage(2*lenc) )
+  c_storage = transfer ( c, 0.0D+00, 2*lenc )
+  call c1fm1b ( n, inc, c_storage, work, wsave, &
+    wsave(iw1), wsave(iw1+1) )
+  c = transfer ( c_storage, c, lenc )
+  deallocate ( c_storage )
 
   return
 end
@@ -1903,11 +1918,21 @@ subroutine cfft1f ( n, inc, c, lenc, wsave, lensav, work, lenwrk, ier )
 !
   implicit none
 
+  interface
+    subroutine c1fm1f ( n, inc, c, ch, wa, fnf, fac )
+      integer ( kind = 4 ) n, inc
+      real ( kind = 8 ) c(*)
+      real ( kind = 8 ) ch(*), wa(*), fnf, fac(*)
+    end subroutine c1fm1f
+  end interface
+
+
   integer ( kind = 4 ) lenc
   integer ( kind = 4 ) lensav
   integer ( kind = 4 ) lenwrk
 
   complex ( kind = 8 ) c(lenc)
+  real ( kind = 8 ), allocatable :: c_storage(:)
   integer ( kind = 4 ) ier
   integer ( kind = 4 ) inc
   integer ( kind = 4 ) iw1
@@ -1934,7 +1959,12 @@ subroutine cfft1f ( n, inc, c, lenc, wsave, lensav, work, lenwrk, ier )
   end if
 
   iw1 = n + n + 1
-  call c1fm1f ( n, inc, c, work, wsave, wsave(iw1), wsave(iw1+1) )
+  allocate ( c_storage(2*lenc) )
+  c_storage = transfer ( c, 0.0D+00, 2*lenc )
+  call c1fm1f ( n, inc, c_storage, work, wsave, &
+    wsave(iw1), wsave(iw1+1) )
+  c = transfer ( c_storage, c, lenc )
+  deallocate ( c_storage )
 
   return
 end
@@ -2107,15 +2137,28 @@ subroutine cfft2b ( ldim, l, m, c, wsave, lensav, work, lenwrk, ier )
 !
   implicit none
 
+  interface
+    subroutine cfftmb_real ( lot, jump, n, inc, c, lenc, wsave, lensav, &
+      work, lenwrk, ier )
+      integer ( kind = 4 ) lot, jump, n, inc, lenc, lensav, lenwrk, ier
+      real ( kind = 8 ) c(*)
+      real ( kind = 8 ) wsave(lensav), work(lenwrk)
+    end subroutine cfftmb_real
+  end interface
+
+
   integer ( kind = 4 ) m
   integer ( kind = 4 ) ldim
   integer ( kind = 4 ) lensav
   integer ( kind = 4 ) lenwrk
 
   complex ( kind = 8 ) c(ldim,m)
+  real ( kind = 8 ), allocatable :: c_storage(:)
   integer ( kind = 4 ) ier
   integer ( kind = 4 ) ier1
+  integer ( kind = 4 ) i
   integer ( kind = 4 ) iw
+  integer ( kind = 4 ) j
   integer ( kind = 4 ) l
   real ( kind = 8 ) work(lenwrk)
   real ( kind = 8 ) wsave(lensav)
@@ -2141,11 +2184,25 @@ subroutine cfft2b ( ldim, l, m, c, wsave, lensav, work, lenwrk, ier )
 !
   iw = 2*l+int(log( real ( l, kind = 8 ) )/log( 2.0D+00 )) + 3
 
-  call cfftmb(l, 1, m, ldim, c, (l-1) + ldim*(m-1) +1, &
+  allocate ( c_storage(2*ldim*m) )
+  do j = 1, m
+    do i = 1, ldim
+      c_storage(2*((j-1)*ldim+i)-1) = real(c(i,j),kind=8)
+      c_storage(2*((j-1)*ldim+i)) = aimag(c(i,j))
+    end do
+  end do
+  call cfftmb_real(l, 1, m, ldim, c_storage, (l-1) + ldim*(m-1) +1, &
     wsave(iw), 2*m + int(log( real ( m, kind = 8 ))/log( 2.0D+00 )) + 4, &
     work, 2*l*m, ier1)
 
   if (ier1 /= 0) then
+    do j = 1, m
+    do i = 1, ldim
+      c(i,j) = cmplx(c_storage(2*((j-1)*ldim+i)-1), &
+        c_storage(2*((j-1)*ldim+i)),kind=8)
+    end do
+  end do
+    deallocate ( c_storage )
     ier = 20
     call xerfft ('cfft2b',-5)
     return
@@ -2155,9 +2212,17 @@ subroutine cfft2b ( ldim, l, m, c, wsave, lensav, work, lenwrk, ier )
 !
   iw = 1
 
-  call cfftmb (m, ldim, l, 1, c, (m-1)*ldim + l, &
+  call cfftmb_real (m, ldim, l, 1, c_storage, (m-1)*ldim + l, &
     wsave(iw), 2*l + int(log( real ( l, kind = 8 ) )/log( 2.0D+00 )) + 4, &
     work, 2*m*l, ier1)
+
+  do j = 1, m
+    do i = 1, ldim
+      c(i,j) = cmplx(c_storage(2*((j-1)*ldim+i)-1), &
+        c_storage(2*((j-1)*ldim+i)),kind=8)
+    end do
+  end do
+  deallocate ( c_storage )
 
   if (ier1 /= 0) then
     ier = 20
@@ -2252,15 +2317,28 @@ subroutine cfft2f ( ldim, l, m, c, wsave, lensav, work, lenwrk, ier )
 !
   implicit none
 
+  interface
+    subroutine cfftmf_real ( lot, jump, n, inc, c, lenc, wsave, lensav, &
+      work, lenwrk, ier )
+      integer ( kind = 4 ) lot, jump, n, inc, lenc, lensav, lenwrk, ier
+      real ( kind = 8 ) c(*)
+      real ( kind = 8 ) wsave(lensav), work(lenwrk)
+    end subroutine cfftmf_real
+  end interface
+
+
   integer ( kind = 4 ) m
   integer ( kind = 4 ) ldim
   integer ( kind = 4 ) lensav
   integer ( kind = 4 ) lenwrk
 
   complex ( kind = 8 ) c(ldim,m)
+  real ( kind = 8 ), allocatable :: c_storage(:)
   integer ( kind = 4 ) ier
   integer ( kind = 4 ) ier1
+  integer ( kind = 4 ) i
   integer ( kind = 4 ) iw
+  integer ( kind = 4 ) j
   integer ( kind = 4 ) l
   real ( kind = 8 ) work(lenwrk)
   real ( kind = 8 ) wsave(lensav)
@@ -2287,12 +2365,26 @@ subroutine cfft2f ( ldim, l, m, c, wsave, lensav, work, lenwrk, ier )
 !
   iw = 2*l+int(log( real ( l, kind = 8 ) )/log( 2.0D+00 )) + 3
 
-  call cfftmf ( l, 1, m, ldim, c, (l-1) + ldim*(m-1) +1, &
+  allocate ( c_storage(2*ldim*m) )
+  do j = 1, m
+    do i = 1, ldim
+      c_storage(2*((j-1)*ldim+i)-1) = real(c(i,j),kind=8)
+      c_storage(2*((j-1)*ldim+i)) = aimag(c(i,j))
+    end do
+  end do
+  call cfftmf_real ( l, 1, m, ldim, c_storage, (l-1) + ldim*(m-1) +1, &
     wsave(iw), &
     2*m + int(log( real ( m, kind = 8 ) )/log( 2.0D+00 )) + 4, &
     work, 2*l*m, ier1)
 
   if (ier1 /= 0) then
+    do j = 1, m
+    do i = 1, ldim
+      c(i,j) = cmplx(c_storage(2*((j-1)*ldim+i)-1), &
+        c_storage(2*((j-1)*ldim+i)),kind=8)
+    end do
+  end do
+    deallocate ( c_storage )
     ier = 20
     call xerfft ('cfft2f',-5)
     return
@@ -2301,9 +2393,17 @@ subroutine cfft2f ( ldim, l, m, c, wsave, lensav, work, lenwrk, ier )
 !  transform y lines of c array
 !
   iw = 1
-  call cfftmf (m, ldim, l, 1, c, (m-1)*ldim + l, &
+  call cfftmf_real (m, ldim, l, 1, c_storage, (m-1)*ldim + l, &
     wsave(iw), 2*l + int(log( real ( l, kind = 8 ) )/log( 2.0D+00 )) + 4, &
     work, 2*m*l, ier1)
+
+  do j = 1, m
+    do i = 1, ldim
+      c(i,j) = cmplx(c_storage(2*((j-1)*ldim+i)-1), &
+        c_storage(2*((j-1)*ldim+i)),kind=8)
+    end do
+  end do
+  deallocate ( c_storage )
 
   if (ier1 /= 0) then
     ier = 20
@@ -2514,11 +2614,21 @@ subroutine cfftmb ( lot, jump, n, inc, c, lenc, wsave, lensav, work, &
 !
   implicit none
 
+  interface
+    subroutine cmfm1b ( lot, jump, n, inc, c, ch, wa, fnf, fac )
+      integer ( kind = 4 ) lot, jump, n, inc
+      real ( kind = 8 ) c(*)
+      real ( kind = 8 ) ch(*), wa(*), fnf, fac(*)
+    end subroutine cmfm1b
+  end interface
+
+
   integer ( kind = 4 ) lenc
   integer ( kind = 4 ) lensav
   integer ( kind = 4 ) lenwrk
 
   complex ( kind = 8 ) c(lenc)
+  real ( kind = 8 ), allocatable :: c_storage(:)
   integer ( kind = 4 ) ier
   integer ( kind = 4 ) inc
   integer ( kind = 4 ) iw1
@@ -2552,6 +2662,69 @@ subroutine cfftmb ( lot, jump, n, inc, c, lenc, wsave, lensav, work, &
 
   iw1 = n+n+1
 
+  allocate ( c_storage(2*lenc) )
+  c_storage = transfer ( c, 0.0D+00, 2*lenc )
+  call cmfm1b (lot,jump,n,inc,c_storage,work,wsave, &
+    wsave(iw1),wsave(iw1+1))
+  c = transfer ( c_storage, c, lenc )
+  deallocate ( c_storage )
+
+  return
+end
+subroutine cfftmb_real ( lot, jump, n, inc, c, lenc, wsave, lensav, work, &
+  lenwrk, ier )
+
+  implicit none
+
+  interface
+    subroutine cmfm1b ( lot, jump, n, inc, c, ch, wa, fnf, fac )
+      integer ( kind = 4 ) lot, jump, n, inc
+      real ( kind = 8 ) c(*), ch(*), wa(*), fnf, fac(*)
+    end subroutine cmfm1b
+    logical function xercon ( inc, jump, n, lot )
+      integer ( kind = 4 ) inc, jump, n, lot
+    end function xercon
+    subroutine xerfft ( srname, info )
+      character ( len = * ) srname
+      integer ( kind = 4 ) info
+    end subroutine xerfft
+  end interface
+
+  integer ( kind = 4 ) lenc
+  integer ( kind = 4 ) lensav
+  integer ( kind = 4 ) lenwrk
+  real ( kind = 8 ) c(*)
+  integer ( kind = 4 ) ier
+  integer ( kind = 4 ) inc
+  integer ( kind = 4 ) iw1
+  integer ( kind = 4 ) jump
+  integer ( kind = 4 ) lot
+  integer ( kind = 4 ) n
+  real ( kind = 8 ) work(lenwrk)
+  real ( kind = 8 ) wsave(lensav)
+
+  ier = 0
+
+  if (lenc < (lot-1)*jump + inc*(n-1) + 1) then
+    ier = 1
+    call xerfft ('cfftmb ', 6)
+  else if (lensav < 2*n + int(log( real ( n, kind = 8 ) ) &
+    /log( 2.0D+00 )) + 4) then
+    ier = 2
+    call xerfft ('cfftmb ', 8)
+  else if (lenwrk < 2*lot*n) then
+    ier = 3
+    call xerfft ('cfftmb ', 10)
+  else if (.not. xercon(inc,jump,n,lot)) then
+    ier = 4
+    call xerfft ('cfftmb ', -1)
+  end if
+
+  if (n == 1) then
+    return
+  end if
+
+  iw1 = n+n+1
   call cmfm1b (lot,jump,n,inc,c,work,wsave,wsave(iw1),wsave(iw1+1))
 
   return
@@ -2650,11 +2823,21 @@ subroutine cfftmf ( lot, jump, n, inc, c, lenc, wsave, lensav, work, &
 !
   implicit none
 
+  interface
+    subroutine cmfm1f ( lot, jump, n, inc, c, ch, wa, fnf, fac )
+      integer ( kind = 4 ) lot, jump, n, inc
+      real ( kind = 8 ) c(*)
+      real ( kind = 8 ) ch(*), wa(*), fnf, fac(*)
+    end subroutine cmfm1f
+  end interface
+
+
   integer ( kind = 4 ) lenc
   integer ( kind = 4 ) lensav
   integer ( kind = 4 ) lenwrk
 
   complex ( kind = 8 ) c(lenc)
+  real ( kind = 8 ), allocatable :: c_storage(:)
   integer ( kind = 4 ) ier
   integer ( kind = 4 ) inc
   integer ( kind = 4 ) iw1
@@ -2688,6 +2871,69 @@ subroutine cfftmf ( lot, jump, n, inc, c, lenc, wsave, lensav, work, &
 
   iw1 = n+n+1
 
+  allocate ( c_storage(2*lenc) )
+  c_storage = transfer ( c, 0.0D+00, 2*lenc )
+  call cmfm1f (lot,jump,n,inc,c_storage,work,wsave, &
+    wsave(iw1),wsave(iw1+1))
+  c = transfer ( c_storage, c, lenc )
+  deallocate ( c_storage )
+
+  return
+end
+subroutine cfftmf_real ( lot, jump, n, inc, c, lenc, wsave, lensav, work, &
+  lenwrk, ier )
+
+  implicit none
+
+  interface
+    subroutine cmfm1f ( lot, jump, n, inc, c, ch, wa, fnf, fac )
+      integer ( kind = 4 ) lot, jump, n, inc
+      real ( kind = 8 ) c(*), ch(*), wa(*), fnf, fac(*)
+    end subroutine cmfm1f
+    logical function xercon ( inc, jump, n, lot )
+      integer ( kind = 4 ) inc, jump, n, lot
+    end function xercon
+    subroutine xerfft ( srname, info )
+      character ( len = * ) srname
+      integer ( kind = 4 ) info
+    end subroutine xerfft
+  end interface
+
+  integer ( kind = 4 ) lenc
+  integer ( kind = 4 ) lensav
+  integer ( kind = 4 ) lenwrk
+  real ( kind = 8 ) c(*)
+  integer ( kind = 4 ) ier
+  integer ( kind = 4 ) inc
+  integer ( kind = 4 ) iw1
+  integer ( kind = 4 ) jump
+  integer ( kind = 4 ) lot
+  integer ( kind = 4 ) n
+  real ( kind = 8 ) work(lenwrk)
+  real ( kind = 8 ) wsave(lensav)
+
+  ier = 0
+
+  if (lenc < (lot-1)*jump + inc*(n-1) + 1) then
+    ier = 1
+    call xerfft ('cfftmf ', 6)
+  else if (lensav < 2*n + int(log( real ( n, kind = 8 ) ) &
+    /log( 2.0D+00 )) + 4) then
+    ier = 2
+    call xerfft ('cfftmf ', 8)
+  else if (lenwrk < 2*lot*n) then
+    ier = 3
+    call xerfft ('cfftmf ', 10)
+  else if (.not. xercon(inc,jump,n,lot)) then
+    ier = 4
+    call xerfft ('cfftmf ', -1)
+  end if
+
+  if (n == 1) then
+    return
+  end if
+
+  iw1 = n+n+1
   call cmfm1f (lot,jump,n,inc,c,work,wsave,wsave(iw1),wsave(iw1+1))
 
   return
@@ -4549,7 +4795,7 @@ subroutine cmfm1b ( lot, jump, n, inc, c, ch, wa, fnf, fac )
 !
   implicit none
 
-  complex ( kind = 8 ) c(*)
+  real ( kind = 8 ) c(*)
   real ( kind = 8 ) ch(*)
   real ( kind = 8 ) fac(*)
   real ( kind = 8 ) fnf
@@ -4569,7 +4815,7 @@ subroutine cmfm1b ( lot, jump, n, inc, c, ch, wa, fnf, fac )
   integer ( kind = 4 ) nf
   real ( kind = 8 ) wa(*)
 
-      nf = int ( fnf )
+  nf = int ( fnf )
       na = 0
       l1 = 1
       iw = 1
@@ -4644,7 +4890,7 @@ subroutine cmfm1f ( lot, jump, n, inc, c, ch, wa, fnf, fac )
 !
   implicit none
 
-  complex ( kind = 8 ) c(*)
+  real ( kind = 8 ) c(*)
   real ( kind = 8 ) ch(*)
   real ( kind = 8 ) fac(*)
   real ( kind = 8 ) fnf
@@ -4664,7 +4910,7 @@ subroutine cmfm1f ( lot, jump, n, inc, c, ch, wa, fnf, fac )
   integer ( kind = 4 ) nf
   real ( kind = 8 ) wa(*)
 
-      nf = int ( fnf )
+  nf = int ( fnf )
       na = 0
       l1 = 1
       iw = 1
@@ -11902,6 +12148,16 @@ subroutine rfft2b ( ldim, l, m, r, wsave, lensav, work, lenwrk, ier )
 !
   implicit none
 
+  interface
+    subroutine cfftmb_real ( lot, jump, n, inc, c, lenc, wsave, lensav, &
+      work, lenwrk, ier )
+      integer ( kind = 4 ) lot, jump, n, inc, lenc, lensav, lenwrk, ier
+      real ( kind = 8 ) c(*)
+      real ( kind = 8 ) wsave(lensav), work(lenwrk)
+    end subroutine cfftmb_real
+  end interface
+
+
   integer ( kind = 4 ) ldim
   integer ( kind = 4 ) lensav
   integer ( kind = 4 ) lenwrk
@@ -11974,7 +12230,7 @@ subroutine rfft2b ( ldim, l, m, r, wsave, lensav, work, lenwrk, ier )
 !  of the input to complex cfftmf must be even.
 !
       call r2w(ldim,ldw,l,m,r,work)
-      call cfftmb(ldh-1,1,m,ldh,work(2),ldh*m, &
+      call cfftmb_real(ldh-1,1,m,ldh,work(2),ldh*m, &
            wsave(lwsav+1),mwsav,r,l*m, ier1)
 
       if(ier1/=0) then
@@ -12111,6 +12367,16 @@ subroutine rfft2f ( ldim, l, m, r, wsave, lensav, work, lenwrk, ier )
 !
   implicit none
 
+  interface
+    subroutine cfftmf_real ( lot, jump, n, inc, c, lenc, wsave, lensav, &
+      work, lenwrk, ier )
+      integer ( kind = 4 ) lot, jump, n, inc, lenc, lensav, lenwrk, ier
+      real ( kind = 8 ) c(*)
+      real ( kind = 8 ) wsave(lensav), work(lenwrk)
+    end subroutine cfftmf_real
+  end interface
+
+
   integer ( kind = 4 ) ldim
   integer ( kind = 4 ) lensav
   integer ( kind = 4 ) lenwrk
@@ -12209,7 +12475,7 @@ subroutine rfft2f ( ldim, l, m, r, wsave, lensav, work, lenwrk, ier )
 !  of the input to complex cfftmf must be even.
 !
       call r2w(ldim,ldw,l,m,r,work)
-      call cfftmf(ldh-1,1,m,ldh,work(2),ldh*m, &
+      call cfftmf_real(ldh-1,1,m,ldh,work(2),ldh*m, &
            wsave(lwsav+1),mwsav,r,l*m, ier1)
 
       if(ier1 /= 0 ) then
