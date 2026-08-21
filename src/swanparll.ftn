@@ -3853,7 +3853,7 @@
       USE SWCOMM3                                                         40.41
       USE OUTP_DATA
       USE M_PARALL                                                        40.31
-      USE SwanGriddata, ONLY: nvertsg                                     41.36
+      USE SwanGriddata, ONLY: nvertsg, xcugrdgl, ycugrdgl                41.36
 !
       IMPLICIT NONE
 !
@@ -3963,8 +3963,10 @@
       INTEGER   IC, IENT, IP, IRQ, IT, IT0, IT1, IUNIT, MIP, MXK, MYK
       INTEGER   ITMP1, ITMP2, ITMP3, ITMP4, ITMP5, ITMP6
       INTEGER   ILPOS, IPROC
+      INTEGER   KGRDUMMY(1,1)
       REAL*8    DIF, TNEXT
       REAL      RTMP1, RTMP2, RTMP3, RTMP4
+      REAL      XGRDUMMY(1,1), YGRDUMMY(1,1)
       REAL, ALLOCATABLE :: XC(:), YC(:), XP(:), YP(:)                     40.51
       LOGICAL   OPENED
       LOGICAL   EXIST
@@ -4130,14 +4132,19 @@
                XCLMAX = XCGMAX
                YCLMIN = YCGMIN
                YCLMAX = YCGMAX
-               CALL SWOEXC (PSTYPE              ,
-     &                      CUOPS%OPI           ,CUOPS%OPR           ,
-     &                      CUOPS%XP            ,CUOPS%YP            ,
-     &                      MIP                 ,XP                  ,
-     &                      YP                  ,XC                  ,
-     &                      YC                  ,KGRPGL              ,
-     &                      XGRDGL              ,YGRDGL              ,
-     &                      CROSS               )                         40.86
+               IF ( PSTYPE.EQ.'U' .AND. LCOMPGRD ) THEN
+                  CALL SWOEXC (PSTYPE              ,
+     &                         CUOPS%OPI, CUOPS%OPR,
+     &                         xcugrdgl, ycugrdgl, MIP,
+     &                         XP, YP, XC, YC, KGRDUMMY,
+     &                         XGRDUMMY, YGRDUMMY, CROSS)
+               ELSE
+                  CALL SWOEXC (PSTYPE              ,
+     &                         CUOPS%OPI, CUOPS%OPR,
+     &                         CUOPS%XP, CUOPS%YP, MIP,
+     &                         XP, YP, XC, YC, KGRPGL,
+     &                         XGRDGL, YGRDGL, CROSS)                        40.86
+               END IF
                MXC    = ITMP1
                MYC    = ITMP2
                MCGRD  = ITMP3
