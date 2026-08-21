@@ -266,6 +266,72 @@ class CMakeConfigurationTests(unittest.TestCase):
             context.exception.stderr + context.exception.stdout,
         )
 
+    def _collect_flag_text(self) -> str:
+        """Read every compiler-flag record CMake generated for this build.
+
+        Ninja records flags in build.ninja files; Makefiles records them in
+        flags.make files. Both are written at configure time.
+        """
+        text_parts = []
+        for ninja_file in self.build.rglob("*.ninja"):
+            text_parts.append(ninja_file.read_text(encoding="utf-8", errors="replace"))
+        for flags_file in self.build.rglob("flags.make"):
+            text_parts.append(flags_file.read_text(encoding="utf-8", errors="replace"))
+        return "\n".join(text_parts)
+
+    def test_diagnostics_option_is_off_by_default(self) -> None:
+        generator = available_single_config_generator()
+        if generator is None:
+            self.skipTest("No usable single-configuration CMake generator")
+        self.configure("-G", generator, "-DCMAKE_BUILD_TYPE=Release")
+        cache = (self.build / "CMakeCache.txt").read_text(encoding="utf-8")
+        self.assertRegex(cache, r"(?m)^SWAN_DIAGNOSTICS:BOOL=OFF$")
+
+    def test_default_build_keeps_suppressed_warnings_and_has_no_diagnostics(self) -> None:
+        generator = available_single_config_generator()
+        if generator is None:
+            self.skipTest("No usable single-configuration CMake generator")
+        self.configure("-G", generator, "-DCMAKE_BUILD_TYPE=Release")
+        flags = self._collect_flag_text()
+        self.assertIn("-w", flags)
+        for diagnostic_flag in (
+            "-Wall",
+            "-Wextra",
+            "-Wimplicit-interface",
+            "-Wimplicit-procedure",
+            "-Wsurprising",
+            "-Wconversion-extra",
+            "-Warray-temporaries",
+            "-fcheck=all",
+            "-fbacktrace",
+        ):
+            with self.subTest(flag=diagnostic_flag):
+                self.assertNotIn(diagnostic_flag, flags)
+
+    def test_diagnostics_flags_are_opt_in(self) -> None:
+        generator = available_single_config_generator()
+        if generator is None:
+            self.skipTest("No usable single-configuration CMake generator")
+        self.configure(
+            "-G", generator, "-DCMAKE_BUILD_TYPE=Release", "-DSWAN_DIAGNOSTICS=ON"
+        )
+        cache = (self.build / "CMakeCache.txt").read_text(encoding="utf-8")
+        self.assertRegex(cache, r"(?m)^SWAN_DIAGNOSTICS:BOOL=ON$")
+        flags = self._collect_flag_text()
+        for diagnostic_flag in (
+            "-Wall",
+            "-Wextra",
+            "-Wimplicit-interface",
+            "-Wimplicit-procedure",
+            "-Wsurprising",
+            "-Wconversion-extra",
+            "-Warray-temporaries",
+            "-fcheck=all",
+            "-fbacktrace",
+        ):
+            with self.subTest(flag=diagnostic_flag):
+                self.assertIn(diagnostic_flag, flags)
+
 
 if __name__ == "__main__":
     unittest.main()

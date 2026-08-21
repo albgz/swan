@@ -170,7 +170,15 @@ where `<value>` is a string or a boolean, depending on the specified option. The
 | `OPENMP`                 | boolean    | enable build with OpenMP                  | `OFF`                   |
 | `METIS`                  | boolean    | enable build with Metis                   | `OFF`                   |
 | `NETCDF`                 | boolean    | enable build with netCDF                  | `OFF`                   |
+| `SWAN_DIAGNOSTICS`       | boolean    | enable opt-in Fortran diagnostics build   | `OFF`                   |
 | `CMAKE_VERBOSE_MAKEFILE` | boolean    | provide verbose output of the build       | `OFF`                   |
+
+The `SWAN_DIAGNOSTICS` option is intended for finding language and interface debt, not for production builds. When enabled it replaces the global warning suppression with explicit compiler diagnostics (`-Wall -Wextra -Wimplicit-interface -Wimplicit-procedure -Wsurprising -Wconversion-extra -Warray-temporaries`) and adds runtime checks (`-fcheck=all -fbacktrace`). Warnings are reported but not treated as errors. Use the normal Release configuration without this option for the authoritative numerical and performance baseline:
+
+```bash
+cmake .. -G Ninja -DSWAN_DIAGNOSTICS=ON
+cmake --build . 2> diagnostics_warnings.log
+```
 
 For example, the following commands
 

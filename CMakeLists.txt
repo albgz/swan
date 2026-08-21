@@ -49,6 +49,9 @@ option( JAC "Enable the MPI/Jacobi solver" OFF )
 option( METIS "Enable METIS grid partitioning" OFF )
 option( FFRO "Enable fixed-front propagation" OFF )
 option( NETCDF "Enable NetCDF input/output" OFF )
+# Opt-in diagnostics build. Adds compiler warnings and runtime checks for
+# language/interface debt without changing the authoritative Release flags.
+option( SWAN_DIAGNOSTICS "Enable opt-in Fortran diagnostics (warnings, runtime checks)" OFF )
 # JAC uses the MPI implementation, but do not mutate the user's cached MPI
 # choice. This keeps JAC=ON followed by JAC=OFF from leaving an accidental MPI
 # build behind in the same build tree.

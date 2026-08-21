@@ -1,13 +1,30 @@
 set(SWAN_FORTRAN_COMPILE_OPTIONS)
 
 if(CMAKE_Fortran_COMPILER_ID MATCHES "GNU")
-  list(APPEND SWAN_FORTRAN_COMPILE_OPTIONS
-       -w -fno-second-underscore -ffree-line-length-none)
-  if(CMAKE_Fortran_COMPILER_VERSION VERSION_GREATER_EQUAL 10)
-    list(APPEND SWAN_FORTRAN_COMPILE_OPTIONS -fallow-argument-mismatch)
-  endif()
-  if(WIN32 AND CMAKE_Fortran_COMPILER_VERSION VERSION_GREATER_EQUAL 7)
-    list(APPEND SWAN_FORTRAN_COMPILE_OPTIONS -fdec)
+  if(SWAN_DIAGNOSTICS)
+    # Opt-in diagnostics configuration: surface language and interface debt.
+    # The global -w suppression is replaced by explicit diagnostics, and
+    # runtime bounds/initialization checks are enabled. This configuration
+    # must not be used for the authoritative performance baseline.
+    list(APPEND SWAN_FORTRAN_COMPILE_OPTIONS
+         -Wall -Wextra -Wimplicit-interface -Wimplicit-procedure
+         -Wsurprising -Wconversion-extra -Warray-temporaries
+         -fcheck=all -fbacktrace
+         -fno-second-underscore -ffree-line-length-none)
+    if(CMAKE_Fortran_COMPILER_VERSION VERSION_GREATER_EQUAL 10)
+      # Argument mismatches are reported as warnings, not errors, while the
+      # debt is repaired incrementally.
+      list(APPEND SWAN_FORTRAN_COMPILE_OPTIONS -fallow-argument-mismatch)
+    endif()
+  else()
+    list(APPEND SWAN_FORTRAN_COMPILE_OPTIONS
+         -w -fno-second-underscore -ffree-line-length-none)
+    if(CMAKE_Fortran_COMPILER_VERSION VERSION_GREATER_EQUAL 10)
+      list(APPEND SWAN_FORTRAN_COMPILE_OPTIONS -fallow-argument-mismatch)
+    endif()
+    if(WIN32 AND CMAKE_Fortran_COMPILER_VERSION VERSION_GREATER_EQUAL 7)
+      list(APPEND SWAN_FORTRAN_COMPILE_OPTIONS -fdec)
+    endif()
   endif()
 elseif(CMAKE_Fortran_COMPILER_ID MATCHES "Intel")
   if(UNIX)
