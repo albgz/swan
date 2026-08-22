@@ -188,9 +188,11 @@
 !
 !  4. Modules used
 !
+      USE, INTRINSIC :: ISO_FORTRAN_ENV, ONLY: REAL64
       USE OCPCOMM2
 !
       IMPLICIT NONE
+      PRIVATE :: REAL64
 !
 !  5. Argument variables
 !
@@ -269,7 +271,7 @@
          CHARACTER (LEN=4)      :: RQTYPE   ! type (BLK, TAB, SPC ...)
          CHARACTER (LEN=8)      :: PSNAME   ! name of point set
          INTEGER                :: OQI(4)   ! integer coefficients
-         REAL*8                 :: OQR(2)   ! real coefficients
+         REAL(REAL64)           :: OQR(2)   ! real coefficients
          INTEGER, POINTER       :: IVTYP(:) ! type of output variable
          REAL, POINTER          :: FAC(:)   ! multiplication factor of block output
          TYPE(ORQDAT), POINTER  :: NEXTORQ
